@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">ProjetoEVC</string>
+    <string name="app_name">eClothingVintage</string>
+
+    //Signup
+    <string name="signup_tvTituloSite">eClothingVintage</string>
+    <string name="signup_tvTitulo">Registar</string>
+    <string name="signup_hUsername">Username</string>
+    <string name="signup_hPrimeiro">Primeiro Nome</string>
+    <string name="signup_hUltimo">Ultimo Nome</string>
+    <string name="signup_hTelemovel">Telemovel</string>
+    <string name="signup_hEmail">Email</string>
+    <string name="signup_hPassword">Password</string>
+    <string name="signup_btnSignup">Registar</string>
+
+    //Login
+    <string name="login_tvTituloSite">eClothingVintage</string>
+    <string name="login_tvTitulo">Login</string>
+    <string name="login_hUsername">Username</string>
+    <string name="login_hPassword">Password</string>
+    <string name="login_btnLogin">Login</string>
+    <string name="login_tvSignupText">Não tem uma conta?</string>
+    <string name="login_btnSignup">Registe-se</string>
 </resources>
