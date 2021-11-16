@@ -11,15 +11,12 @@
         android:theme="@style/Theme.ProjetoEVC">
         <activity
             android:name=".vistas.MenuMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".vistas.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 
