@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">eClothingVintage</string>
-
+    <string name="ndOpen">Open</string>
+    <string name="ndClose">Close</string>
     //Signup
     <string name="signup_tvTituloSite">eClothingVintage</string>
     <string name="signup_tvTitulo">Registar</string>
@@ -20,4 +21,6 @@
     <string name="login_btnLogin">Login</string>
     <string name="login_tvSignupText">Não tem uma conta?</string>
     <string name="login_btnSignup">Registe-se</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
