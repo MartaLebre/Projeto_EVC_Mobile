@@ -13,16 +13,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            />
+            android:layout_height="20dp" />
 
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/logo"
-            />
+            app:srcCompat="@drawable/logo" />
 
         <TextView
             android:id="@+id/tvTituloSite"
@@ -31,13 +29,11 @@
             android:layout_marginTop="5dp"
             android:text="@string/login_tvTituloSite"
             android:textAlignment="center"
-            android:textSize="24sp"
-            />
+            android:textSize="24sp" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            />
+            android:layout_height="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,28 +46,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
-                android:text="@string/login_tvTitulo"
-                />
+                android:text="@string/login_tvTitulo" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_weight="1"
-                />
+                android:layout_height="10dp" />
 
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login_hUsername"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_weight="1"
-                />
+                android:layout_height="10dp" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -79,13 +69,11 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/login_hPassword"
                 android:inputType="textPassword"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                />
+                android:layout_height="20dp" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Colored"
@@ -97,15 +85,13 @@
                 android:onClick="btnLogin_Click"
                 android:paddingHorizontal="40dp"
                 android:text="@string/login_btnLogin"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            />
+            android:layout_height="30dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -125,8 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/login_tvSignupText"
-                    android:textSize="20sp"
-                    />
+                    android:textSize="20sp" />
 
                 <Button
                     style="@style/Widget.AppCompat.Button.Borderless"
@@ -137,8 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/login_btnSignup"
                     android:textSize="20sp"
-                    android:textAllCaps="false"
-                    />
+                    android:textAllCaps="false" />
 
             </LinearLayout>
         </LinearLayout>
