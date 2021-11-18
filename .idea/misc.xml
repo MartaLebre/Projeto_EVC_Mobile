@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/drawable/anim_slideshow.xml" value="0.1" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/activity_main.xml" value="0.1953125" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/activity_menu_main.xml" value="0.18" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/activity_splash.xml" value="0.209375" />
@@ -12,17 +13,8 @@
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_login.xml" value="0.1953125" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_main.xml" value="0.1" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_signup.xml" value="0.1953125" />
-        <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/nav_header_main.xml" value="0.1" />
+        <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/nav_header_main.xml" value="0.22" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/activity_menu_main.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/activity_splash.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/app_bar_main.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_edit_profile.xml" value="0.4" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_login.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_main.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_signup.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
-        <entry key="..\:/Users/lucashnvarela/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/menu/activity_main_drawer.xml" value="0.536" />
       </map>
     </option>
   </component>

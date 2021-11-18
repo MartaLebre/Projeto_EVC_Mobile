@@ -1,14 +1,17 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import amsi.dei.estg.ipleiria.projetoevc.R;
 
@@ -61,17 +64,24 @@ public class MainFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmen
+
+
+        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+
         setHasOptionsMenu(true);
         fragmentManager = getFragmentManager();
-        return inflater.inflate(R.layout.fragment_main, container, false);
 
+        ImageView iv_background = view.findViewById(R.id.iv_background);
+        AnimationDrawable animationDrawable = (AnimationDrawable) iv_background.getDrawable();
+        animationDrawable.start();
 
-
-
+        return view;
 
     }
 }

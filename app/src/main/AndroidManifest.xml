@@ -22,7 +22,6 @@
             android:name=".vistas.MenuMainActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-
     </application>
 
 </manifest>

@@ -6,58 +6,80 @@
     android:layout_height="match_parent"
     tools:context=".vistas.MainFragment">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
-                    android:orientation="vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="main_tvTextInicial"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        />
-                </LinearLayout>
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="800px"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="40dp" />
+
+                <androidx.cardview.widget.CardView
+                    app:cardElevation = "85dp"
+                    app:cardCornerRadius = "20dp"
+                    android:layout_margin = "10dp"
+                    android:foregroundGravity = "center"
+                    android:layout_centerInParent = "true"
+                    android:layout_width = "400dp"
+                    android:layout_height = "300dp">
+
+                <ImageView
+                    android:id="@+id/iv_background"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:scaleType="fitXY"
+                    android:src="@drawable/anim_slideshow" />
+                </androidx.cardview.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"/>
+            </RelativeLayout>
 
-                    <Space
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        />
-
-                </LinearLayout>
-                <LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -67,40 +89,22 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="40dp"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical"
+                    android:paddingTop="40dp" />
 
-                <ImageView
+                <Button
+                    android:id="@+id/btnAnuncios"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/logo" />
+                    android:layout_gravity="center"
+                    android:text="Produtos"
+                    android:textAllCaps="false"
+                    android:textSize="22sp" />
+
+
             </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="40dp"
-                        android:orientation="vertical"/>
-
-                    <Button style="@style/Widget.AppCompat.Button.Borderless"
-                        android:id="@+id/btnAnuncios"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Anúncios"
-                        android:textSize="22sp"
-                        android:textAllCaps="false"
-                        />
-
-
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
