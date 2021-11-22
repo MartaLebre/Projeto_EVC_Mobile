@@ -54,7 +54,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     }
     private void carregarFragmento(){
         fragment = new MainFragment();
-        setTitle("Inicial");
+        //setTitle("Inicial");
         if(fragment != null)
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
     }
@@ -70,22 +70,26 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         carregarCabecalho();
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
-                setTitle(menuItem.getTitle());
+                //setTitle(menuItem.getTitle());
                 fragment = new MainFragment();
                 break;
             case R.id.nav_perfil:
                 if(token != null) {
-                    setTitle(menuItem.getTitle());
+                    //setTitle(menuItem.getTitle());
                     fragment = new EditProfileFragment();
                     break;
-                }else {
+                }
+
+                else {
+
                     fragment = new LoginFragment();
-                    setTitle(menuItem.getTitle());
+
+                    break;
                 }
 
             default:
                 fragment = new MainFragment();
-                setTitle(menuItem.getTitle());
+                //setTitle(menuItem.getTitle());
         }
         if(fragment != null)
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
