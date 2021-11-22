@@ -30,6 +30,7 @@
     <string name="update_hUltimo">Ultimo Nome</string>
     <string name="update_hTelemovel">Telemovel</string>
     <string name="update_hEmail">Email</string>
+    <string name="update_hPassword">Password</string>
     <string name="update_btnUpdate">Atualizar</string>
     <string name="update_tvOr">OU</string>
     <string name="update_btnDelete">Apagar conta</string>
@@ -37,4 +38,6 @@
     //Nav Header Main
     <string name="navMain_tvTituloSite">eClothingVintage</string>
     <string name="navMain_tvUsername">Username</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

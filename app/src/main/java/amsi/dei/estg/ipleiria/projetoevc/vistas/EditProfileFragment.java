@@ -1,21 +1,49 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import amsi.dei.estg.ipleiria.projetoevc.R;
+import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
+import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
+import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link EditProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements UserListener {
+
+
+
+    EditText username;
+    EditText primeiroNome;
+    EditText ultimoNome;
+    EditText email;
+    EditText numeroTelemovel;
+    EditText password;
+
+
+    private FragmentManager fragmentManager;
+    private Utilizador utilizador;
+
+    private Pattern pattern;
+    private Matcher matcher;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,6 +90,96 @@ public class EditProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+
+        username = view.findViewById(R.id.etUsername);
+        email = view.findViewById(R.id.etEmail);
+        password = view.findViewById(R.id.etPassword);
+        primeiroNome = view.findViewById(R.id.etprimeiroNome);
+        ultimoNome = view.findViewById(R.id.etultimoNome);
+        numeroTelemovel = view.findViewById(R.id.etTelemovel);
+
+
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+
+        //SingletonGestorImoUni.getInstance(getContext()).getUserAPI(getContext(), token);
+
+        Button button = view.findViewById(R.id.btnUpdate);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (SingletonGestorEvc.isConnectedInternet(getContext())) {
+
+                    String mUsername = username.getText().toString();
+                    String mEmail = email.getText().toString();
+                    String mPassword = password.getText().toString();
+                    String mPrimeiroNome = primeiroNome.getText().toString();
+                    String mUltimoNome = ultimoNome.getText().toString();
+                    String mNumeroTelemovel = numeroTelemovel.getText().toString();
+
+
+                    utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
+                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), mPassword ,token);
+                }
+            }
+        });
+
+        Button buttonApagar = view.findViewById(R.id.btnDelete);
+        buttonApagar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (SingletonGestorEvc.isConnectedInternet(getContext())) {
+
+                    String mUsername = username.getText().toString();
+                    String mEmail = email.getText().toString();
+                    String mPassword = password.getText().toString();
+                    String mPrimeiroNome = primeiroNome.getText().toString();
+                    String mUltimoNome = ultimoNome.getText().toString();
+                    String mNumeroTelemovel = numeroTelemovel.getText().toString();
+
+
+                    utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
+                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(token, getContext());
+                }
+            }
+        });
+
+        return  view;
+
+    }
+
+    @Override
+    public void onUserRegistado(String response) {
+
+    }
+
+    @Override
+    public void onRefreshDetalhes(String response) {
+        switch (response) {
+            case "true":
+                Fragment fragment = new MainFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "A sua conta foi atualizada com sucesso!", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onApagarConta(String response) {
+        switch (response) {
+            case "null":
+                Fragment fragment = new SignupFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "A sua conta foi apagada com sucesso!", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onValidateLogin(String token, String username) {
+
     }
 }

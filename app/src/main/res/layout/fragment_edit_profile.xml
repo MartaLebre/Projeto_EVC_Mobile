@@ -48,10 +48,23 @@
                     android:layout_height="10dp" />
 
                 <EditText
-                    android:id="@+id/etprimeiroNome"
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/update_hPrimeiro"
+                    android:hint="@string/update_hEmail"
+                    android:inputType="textEmailAddress"
+                    android:textSize="18sp" />
+
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/update_hPassword"
                     android:textSize="18sp" />
 
                 <Space
@@ -59,11 +72,23 @@
                     android:layout_height="10dp" />
 
                 <EditText
-                        android:id="@+id/etultimoNome"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/update_hUltimo"
-                        android:textSize="18sp" />
+                    android:id="@+id/etprimeiroNome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/update_hPrimeiro"
+                    android:textSize="18sp" />
+
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <EditText
+                    android:id="@+id/etultimoNome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/update_hUltimo"
+                    android:textSize="18sp" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -75,19 +100,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/update_hTelemovel"
                     android:inputType="number"
-                    android:textSize="18sp" />
-
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/update_hEmail"
-                    android:inputType="textEmailAddress"
                     android:textSize="18sp" />
 
                 <Button
