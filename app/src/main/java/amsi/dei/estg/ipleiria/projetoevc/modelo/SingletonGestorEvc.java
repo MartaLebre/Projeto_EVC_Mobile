@@ -22,10 +22,10 @@ public class SingletonGestorEvc {
 
     private static SingletonGestorEvc instance = null;
     private static RequestQueue volleyQueue;
-    private static final String mUrlAPIRegistarUser = "http://192.168.1.68:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.1.68:8080/v1/user/login/";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.68:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.1.68:8080/v1/user/apagaruser";
+    private static final String mUrlAPIRegistarUser = "http://192.168.1.189:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.1.189:8080/v1/user/login/";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.189:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.1.189:8080/v1/user/apagar";
 
     public UserListener userListener;
 
@@ -96,7 +96,7 @@ public class SingletonGestorEvc {
 
             public void onResponse(String response) {
                 if (userListener != null) {
-                    userListener.onValidateLogin(UtilizadoresParserJson.parserJsonLogin(response), username);
+                    userListener.onValidateLogin(username, UtilizadoresParserJson.parserJsonLogin(response));
                 }
             }
         }, new Response.ErrorListener() {

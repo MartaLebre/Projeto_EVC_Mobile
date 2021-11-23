@@ -7,5 +7,5 @@ public interface UserListener {
 
     void onApagarConta(String response);
 
-    void onValidateLogin(String token, String username);
+    void onValidateLogin(String username, String token);
 }

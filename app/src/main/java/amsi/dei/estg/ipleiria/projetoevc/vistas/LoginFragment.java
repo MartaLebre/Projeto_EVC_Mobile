@@ -106,18 +106,6 @@ public class LoginFragment extends Fragment implements UserListener {
         return view;
     }
 
-
-    private void guardarInfoSharedPref(String token, String username) {
-        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferencesUser.edit();
-
-        editor.putString(MenuMainActivity.USERNAME, username);
-        editor.putString(
-                MenuMainActivity.TOKEN, token);
-
-        editor.apply();
-    }
-
     @Override
     public void onUserRegistado(String response) {
 
@@ -134,7 +122,7 @@ public class LoginFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
+    public void onValidateLogin(String username, String token) {
         if (token != null) {
             guardarInfoSharedPref(token, username);
             Fragment fragment = new MainFragment();
@@ -143,5 +131,16 @@ public class LoginFragment extends Fragment implements UserListener {
         } else {
             mPassword.setError("Utilizador ou Palavra-Passe Incorretos!");
         }
+    }
+
+    private void guardarInfoSharedPref(String token, String username) {
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferencesUser.edit();
+
+        editor.putString(MenuMainActivity.USERNAME, username);
+        editor.putString(
+                MenuMainActivity.TOKEN, token);
+
+        editor.apply();
     }
 }

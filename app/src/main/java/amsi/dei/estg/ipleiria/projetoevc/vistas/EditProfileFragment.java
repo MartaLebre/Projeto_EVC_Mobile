@@ -179,7 +179,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
+    public void onValidateLogin(String username, String token) {
 
     }
 }
