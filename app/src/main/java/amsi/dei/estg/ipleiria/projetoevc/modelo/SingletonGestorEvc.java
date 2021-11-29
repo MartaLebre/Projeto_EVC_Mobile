@@ -23,10 +23,12 @@ public class SingletonGestorEvc {
     //192.168.1.189
     private static SingletonGestorEvc instance = null;
     private static RequestQueue volleyQueue;
-    private static final String mUrlAPIRegistarUser = "http://192.168.50.161:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.50.161:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.50.161:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.50.161:8080/v1/user/apagar";
+    private Utilizador utilizadores;
+    private static final String mUrlAPIRegistarUser = "http://192.168.1.68:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.1.68:8080/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.68:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.1.68:8080/v1/user/apagar";
+    private static final String mUrlAPIUserInfo = "http://192.168.1.68:8080/v1/user/info";
 
     public UserListener userListener;
 
@@ -164,6 +166,26 @@ public class SingletonGestorEvc {
         });
         volleyQueue.add(req);
 
+    }
+
+    public void getUserAPI(final Context context, String token) {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserInfo + "/" + token, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    utilizadores = UtilizadoresParserJson.parserJsonUtilizador(response);
+
+                    if (userListener != null)
+                        userListener.onLoadEditarRegisto(utilizadores);
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
     }
 
 }

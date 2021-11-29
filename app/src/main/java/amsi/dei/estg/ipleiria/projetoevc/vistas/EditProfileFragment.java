@@ -28,15 +28,7 @@ import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
 public class EditProfileFragment extends Fragment implements UserListener {
 
 
-
-    EditText username;
-    EditText email;
-    EditText numeroTelemovel;
-    EditText password;
-    EditText primeiroNome;
-    EditText ultimoNome;
-
-
+    private EditText username, email, password, primeiroNome, ultimoNome, numeroTelemovel;
     private FragmentManager fragmentManager;
     private Utilizador utilizador;
 
@@ -51,23 +43,24 @@ public class EditProfileFragment extends Fragment implements UserListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         fragmentManager = getFragmentManager();
 
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         SingletonGestorEvc.getInstance(getContext()).setUserListener(this);
 
-
-        numeroTelemovel = view.findViewById(R.id.etTelemovel);
-        password = view.findViewById(R.id.etPassword);
         username = view.findViewById(R.id.etUsername);
         email = view.findViewById(R.id.etEmail);
+        password = view.findViewById(R.id.etPassword);
         ultimoNome = view.findViewById(R.id.etultimoNome);
         primeiroNome = view.findViewById(R.id.etprimeiroNome);
+        numeroTelemovel = view.findViewById(R.id.etTelemovel);
 
 
-        //SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        //String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+
+        SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), token);
 
 
         Button button = view.findViewById(R.id.btnUpdate);
@@ -85,7 +78,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
                     SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), mPassword,token);
                 }
             }
@@ -107,7 +100,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome , mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
                     SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(token, getContext());
 
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
@@ -171,5 +164,15 @@ public class EditProfileFragment extends Fragment implements UserListener {
     @Override
     public void onValidateLogin(String token, String username) {
 
+    }
+
+    @Override
+    public void onLoadEditarRegisto(Utilizador utilizador) {
+        username.setText(utilizador.getUsername());
+        email.setText(utilizador.getEmail());
+        password.setText(utilizador.getPassword());
+        primeiroNome.setText(utilizador.getPrimeiro_nome());
+        ultimoNome.setText(utilizador.getUltimo_nome());
+        numeroTelemovel.setText(utilizador.getTelemovel());
     }
 }

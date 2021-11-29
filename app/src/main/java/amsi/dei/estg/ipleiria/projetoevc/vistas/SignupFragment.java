@@ -242,4 +242,9 @@ public class SignupFragment extends Fragment implements UserListener {
     public void onValidateLogin(String username, String token) {
 
     }
+
+    @Override
+    public void onLoadEditarRegisto(Utilizador utilizador) {
+
+    }
 }

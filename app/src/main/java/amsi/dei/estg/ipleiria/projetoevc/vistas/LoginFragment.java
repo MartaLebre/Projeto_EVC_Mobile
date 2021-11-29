@@ -17,13 +17,15 @@ import android.widget.Toast;
 import amsi.dei.estg.ipleiria.projetoevc.R;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
+import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
+import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
+
 
 
 public class LoginFragment extends Fragment implements UserListener {
 
+    private EditText mUsername, mPassword;
     Button mLoginButton;
-    EditText mUsername;
-    EditText mPassword;
     private FragmentManager fragmentManager;
 
     public LoginFragment() {
@@ -119,13 +121,17 @@ public class LoginFragment extends Fragment implements UserListener {
         }
     }
 
+    @Override
+    public void onLoadEditarRegisto(Utilizador utilizador) {
+        
+    }
+
     private void guardarInfoSharedPref(String token, String username) {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
         editor.putString(MenuMainActivity.USERNAME, username);
-        editor.putString(
-                MenuMainActivity.TOKEN, token);
+        editor.putString(MenuMainActivity.TOKEN, token);
 
         editor.apply();
     }
