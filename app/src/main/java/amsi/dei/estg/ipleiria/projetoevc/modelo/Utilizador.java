@@ -6,18 +6,19 @@ import java.util.regex.Pattern;
 public class Utilizador {
 
         private int id;
-        private String username, email, password, primeiro_nome, ultimo_nome, telemovel;
+        private String username, email, password, primeiroNome, ultimoNome, numeroTelemovel;
 
         private Pattern pattern;
         private Matcher matcher;
+
 
     public Utilizador(String username, String email, String password, String primeiro_nome, String ultimo_nome, String telemovel) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.primeiro_nome = primeiro_nome;
-        this.ultimo_nome = ultimo_nome;
-        this.telemovel = telemovel;
+        this.primeiroNome = primeiro_nome;
+        this.ultimoNome = ultimo_nome;
+        this.numeroTelemovel = telemovel;
         
     }
 
@@ -53,28 +54,28 @@ public class Utilizador {
         this.password = password;
     }
 
-    public String getPrimeiro_nome() {
-        return primeiro_nome;
+    public String getPrimeiroNome() {
+        return primeiroNome;
     }
 
-    public void setPrimeiro_nome(String primeiro_nome) {
-        this.primeiro_nome = primeiro_nome;
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
     }
 
-    public String getUltimo_nome() {
-        return ultimo_nome;
+    public String getUltimoNome() {
+        return ultimoNome;
     }
 
-    public void setUltimo_nome(String ultimo_nome) {
-        this.ultimo_nome = ultimo_nome;
+    public void setUltimoNome(String ultimoNome) {
+        this.ultimoNome = ultimoNome;
     }
 
-    public String getTelemovel() {
-        return telemovel;
+    public String getNumeroTelemovel() {
+        return numeroTelemovel;
     }
 
-    public void setTelemovel(String telemovel) {
-        this.telemovel = telemovel;
+    public void setNumeroTelemovel(String numeroTelemovel) {
+        this.numeroTelemovel = numeroTelemovel;
     }
 
 

@@ -12,4 +12,6 @@ public interface UserListener {
     void onValidateLogin(String token, String username);
 
     void onLoadEditarRegisto(Utilizador utilizador);
+
+    void onErroLogin();
 }

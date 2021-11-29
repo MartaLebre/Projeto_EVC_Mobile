@@ -64,9 +64,9 @@ public class LoginFragment extends Fragment implements UserListener {
 
                     SingletonGestorEvc.getInstance(getContext()).loginUserAPI(username, password, getContext());
                 }
-
             }
         });
+
         Button btnRegistar = view.findViewById(R.id.btnSignup);
         btnRegistar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment implements UserListener {
         if (password == null) {
             return true;
         }
-        return password.length() > 5;
+        return password.length() > 0;
 
     }
 
@@ -126,12 +126,17 @@ public class LoginFragment extends Fragment implements UserListener {
         
     }
 
+    @Override
+    public void onErroLogin() {
+        Toast.makeText(getContext(), "erro", Toast.LENGTH_LONG).show();
+    }
+
     private void guardarInfoSharedPref(String token, String username) {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
-        editor.putString(MenuMainActivity.USERNAME, username);
         editor.putString(MenuMainActivity.TOKEN, token);
+        editor.putString(MenuMainActivity.USERNAME, username);
 
         editor.apply();
     }

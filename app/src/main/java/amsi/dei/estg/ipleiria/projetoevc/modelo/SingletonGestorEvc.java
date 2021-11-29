@@ -3,6 +3,7 @@ package amsi.dei.estg.ipleiria.projetoevc.modelo;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -11,6 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,9 +87,9 @@ public class SingletonGestorEvc {
                 params.put("username", utilizador.getUsername());
                 params.put("email", utilizador.getEmail());
                 params.put("password", utilizador.getPassword());
-                params.put("primeiro_nome", utilizador.getPrimeiro_nome());
-                params.put("ultimo_nome", utilizador.getUltimo_nome());
-                params.put("telemovel", utilizador.getTelemovel());
+                params.put("primeiro_nome", utilizador.getPrimeiroNome());
+                params.put("ultimo_nome", utilizador.getUltimoNome());
+                params.put("telemovel", utilizador.getNumeroTelemovel());
 
                 return params;
             }
@@ -105,7 +108,9 @@ public class SingletonGestorEvc {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                if(userListener != null){
+                    userListener.onErroLogin();
+                }
             }
         }) {
             @Override
@@ -116,6 +121,7 @@ public class SingletonGestorEvc {
                 return params;
             }
         };
+        Log.e("12", req.toString());
         volleyQueue.add(req);
     }
 
@@ -139,9 +145,9 @@ public class SingletonGestorEvc {
 
                 params.put("username", utilizador.getUsername());
                 params.put("email", utilizador.getEmail());
-                params.put("primeiro_nome", utilizador.getPrimeiro_nome());
-                params.put("ultimo_nome", utilizador.getUltimo_nome());
-                params.put("telemovel", utilizador.getTelemovel());
+                params.put("primeiro_nome", utilizador.getPrimeiroNome());
+                params.put("ultimo_nome", utilizador.getUltimoNome());
+                params.put("telemovel", utilizador.getNumeroTelemovel());
 
                 return params;
             }

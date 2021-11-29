@@ -29,14 +29,8 @@ import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
  */
 public class SignupFragment extends Fragment implements UserListener {
 
+    private EditText username, email, password, primeiroNome, ultimoNome, numeroTelemovel;
     Button btn_signUp;
-    EditText username;
-    EditText primeiroNome;
-    EditText ultimoNome;
-    EditText email;
-    EditText numeroTelemovel;
-    EditText password;
-    //private Utilizador utilizador;
     public UserListener userListener;
 
     private Utilizador utilizador;
@@ -44,44 +38,9 @@ public class SignupFragment extends Fragment implements UserListener {
     private Matcher matcher;
     private FragmentManager fragmentManager;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public SignupFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SignupFragment newInstance(String param1, String param2) {
-        SignupFragment fragment = new SignupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -96,11 +55,12 @@ public class SignupFragment extends Fragment implements UserListener {
        SingletonGestorEvc.getInstance(getContext()).setUserListener(this);
 
         username = view.findViewById(R.id.etUsername);
+        email = view.findViewById(R.id.etEmail);
+        password = view.findViewById(R.id.etPassword);
         primeiroNome = view.findViewById(R.id.etprimeiroNome);
         ultimoNome = view.findViewById(R.id.etultimoNome);
-        email = view.findViewById(R.id.etEmail);
         numeroTelemovel = view.findViewById(R.id.etTelemovel);
-        password = view.findViewById(R.id.etPassword);
+
 
         btn_signUp = view.findViewById(R.id.btnSignup);
         btn_signUp.setOnClickListener(new View.OnClickListener() {
@@ -245,6 +205,11 @@ public class SignupFragment extends Fragment implements UserListener {
 
     @Override
     public void onLoadEditarRegisto(Utilizador utilizador) {
+
+    }
+
+    @Override
+    public void onErroLogin() {
 
     }
 }

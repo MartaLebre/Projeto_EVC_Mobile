@@ -1,5 +1,7 @@
 package amsi.dei.estg.ipleiria.projetoevc.utils;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +58,7 @@ public class UtilizadoresParserJson {
         String token = null;
         try {
             JSONObject login = new JSONObject(response);
-            token = login.getString("verification_token");
+                token = login.getString("verification_token");
         } catch (JSONException e) {
             e.printStackTrace();
         }

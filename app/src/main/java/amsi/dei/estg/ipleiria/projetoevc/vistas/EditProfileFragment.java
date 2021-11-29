@@ -171,8 +171,13 @@ public class EditProfileFragment extends Fragment implements UserListener {
         username.setText(utilizador.getUsername());
         email.setText(utilizador.getEmail());
         password.setText(utilizador.getPassword());
-        primeiroNome.setText(utilizador.getPrimeiro_nome());
-        ultimoNome.setText(utilizador.getUltimo_nome());
-        numeroTelemovel.setText(utilizador.getTelemovel());
+        primeiroNome.setText(utilizador.getPrimeiroNome());
+        ultimoNome.setText(utilizador.getUltimoNome());
+        numeroTelemovel.setText(utilizador.getNumeroTelemovel());
+    }
+
+    @Override
+    public void onErroLogin() {
+
     }
 }
