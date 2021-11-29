@@ -7,11 +7,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
@@ -22,21 +24,17 @@ import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class EditProfileFragment extends Fragment implements UserListener {
 
 
 
     EditText username;
-    EditText primeiroNome;
-    EditText ultimoNome;
     EditText email;
     EditText numeroTelemovel;
     EditText password;
+    EditText primeiroNome;
+    EditText ultimoNome;
 
 
     private FragmentManager fragmentManager;
@@ -45,70 +43,38 @@ public class EditProfileFragment extends Fragment implements UserListener {
     private Pattern pattern;
     private Matcher matcher;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public EditProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditProfileFragment newInstance(String param1, String param2) {
-        EditProfileFragment fragment = new EditProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        //setHasOptionsMenu(true);
+        fragmentManager = getFragmentManager();
 
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        SingletonGestorEvc.getInstance(getContext()).setUserListener(this);
+
+
+        numeroTelemovel = view.findViewById(R.id.etTelemovel);
+        password = view.findViewById(R.id.etPassword);
         username = view.findViewById(R.id.etUsername);
         email = view.findViewById(R.id.etEmail);
-        password = view.findViewById(R.id.etPassword);
-        primeiroNome = view.findViewById(R.id.etprimeiroNome);
         ultimoNome = view.findViewById(R.id.etultimoNome);
-        numeroTelemovel = view.findViewById(R.id.etTelemovel);
+        primeiroNome = view.findViewById(R.id.etprimeiroNome);
 
 
-        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+        //SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        //String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
-        //SingletonGestorImoUni.getInstance(getContext()).getUserAPI(getContext(), token);
 
         Button button = view.findViewById(R.id.btnUpdate);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
+
 
                     String mUsername = username.getText().toString();
                     String mEmail = email.getText().toString();
@@ -117,11 +83,10 @@ public class EditProfileFragment extends Fragment implements UserListener {
                     String mUltimoNome = ultimoNome.getText().toString();
                     String mNumeroTelemovel = numeroTelemovel.getText().toString();
 
-
-                    utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
+                    utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
                     String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
-                    SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), mPassword ,token);
+                    SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), mPassword,token);
                 }
             }
         });
@@ -131,6 +96,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
 
+
                     String mUsername = username.getText().toString();
                     String mEmail = email.getText().toString();
                     String mPassword = password.getText().toString();
@@ -139,26 +105,48 @@ public class EditProfileFragment extends Fragment implements UserListener {
                     String mNumeroTelemovel = numeroTelemovel.getText().toString();
 
 
-                    utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
+                    utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome , mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
                     String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(token, getContext());
+
+                    SharedPreferences.Editor editor = sharedPreferencesUser.edit();
+
+                    editor.clear().apply();
+
                 }
             }
         });
 
         return  view;
-
     }
 
     @Override
     public void onUserRegistado(String response) {
+        Log.e("resposta", response);
 
+        switch (response) {
+            case "0":
+                Log.e("eee", "1111");
+                email.setError("Este email já se encontra registado!");
+                break;
+            case "1":
+                username.setError("Este nome de utilizador já se encontra registado!");
+                break;
+            case "2":
+                numeroTelemovel.setError("Este numero de telemovel já se encontra registado!");
+                break;
+            case "false":
+                Fragment fragment = new LoginFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "Bem Vindo(a), a sua conta foi registada com sucesso!", Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 
     @Override
-    public void onRefreshDetalhes(String response) {
-        switch (response) {
+    public void onRefreshDetalhes(String resposta) {
+        switch (resposta) {
             case "true":
                 Fragment fragment = new MainFragment();
                 fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
@@ -168,18 +156,20 @@ public class EditProfileFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onApagarConta(String response) {
-        switch (response) {
+    public void onApagarConta(String resposta) {
+
+        switch (resposta) {
             case "null":
                 Fragment fragment = new SignupFragment();
-                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
                 Toast.makeText(getContext(), "A sua conta foi apagada com sucesso!", Toast.LENGTH_LONG).show();
                 break;
         }
+
     }
 
     @Override
-    public void onValidateLogin(String username, String token) {
+    public void onValidateLogin(String token, String username) {
 
     }
 }

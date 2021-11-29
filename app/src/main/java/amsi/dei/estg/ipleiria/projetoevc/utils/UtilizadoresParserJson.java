@@ -45,7 +45,7 @@ public class UtilizadoresParserJson {
             String PrimeiroNome = utilizador.getString("primeiro_nome");
             String UltimoNome = utilizador.getString("ultimo_nome");
             String NumeroTelemovel = utilizador.getString("telemovel");
-            auxUtilizador = new Utilizador(null, null, null, PrimeiroNome, UltimoNome, NumeroTelemovel);
+            auxUtilizador = new Utilizador(Username, Email, null, PrimeiroNome, UltimoNome, NumeroTelemovel);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -30,13 +32,16 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     Fragment fragment = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_main);
-        Toolbar toolbar = findViewById(R.id.myToolBar);
 
-         setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(toolbar);
+
+
 
         navigationView = findViewById(R.id.nav_view);
 
@@ -54,7 +59,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     }
     private void carregarFragmento(){
         fragment = new MainFragment();
-        //setTitle("Inicial");
+        setTitle("Inicial");
         if(fragment != null)
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
     }
@@ -70,26 +75,46 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         carregarCabecalho();
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
-                //setTitle(menuItem.getTitle());
+                setTitle(menuItem.getTitle());
                 fragment = new MainFragment();
+                break;
+            case R.id.nav_produtos:
+                //ragment = new ListaAnuncioFragment();
+                setTitle(menuItem.getTitle());
+                break;
+            case R.id.nav_favoritos:
+                //fragment = new ListaAnuncioFragment();
+                setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_perfil:
                 if(token != null) {
-                    //setTitle(menuItem.getTitle());
                     fragment = new EditProfileFragment();
+                    setTitle(menuItem.getTitle());
                     break;
-                }
-
-                else {
-
+                }else{
                     fragment = new LoginFragment();
-
+                    setTitle(menuItem.getTitle());
                     break;
                 }
+            case R.id.nav_TerminarSessao:
+                if(token != null) {
+                    SharedPreferences sharedPreferencesUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
+                    editor.clear().apply();
+
+                    fragment = new MainFragment();
+                    fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+
+                    Toast.makeText(getApplicationContext(), "Terminou a sessão com sucesso!", Toast.LENGTH_LONG).show();
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Não tem login efectuado para terminar sessão!", Toast.LENGTH_LONG).show();
+
+                }
             default:
                 fragment = new MainFragment();
-                //setTitle(menuItem.getTitle());
+                setTitle(menuItem.getTitle());
         }
         if(fragment != null)
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
