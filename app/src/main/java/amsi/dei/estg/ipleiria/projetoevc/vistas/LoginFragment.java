@@ -1,6 +1,7 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -25,7 +26,7 @@ import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
 public class LoginFragment extends Fragment implements UserListener {
 
     private EditText mUsername, mPassword;
-    Button mLoginButton;
+
     private FragmentManager fragmentManager;
 
     public LoginFragment() {
@@ -41,11 +42,12 @@ public class LoginFragment extends Fragment implements UserListener {
         SingletonGestorEvc.getInstance(getContext()).setUserListener(this);
 
         fragmentManager = getFragmentManager();
-        mLoginButton = view.findViewById(R.id.btnLogin);
+
         mUsername = view.findViewById(R.id.etUsername);
         mPassword = view.findViewById(R.id.etPassword);
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
+        Button btnLogin = view.findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
@@ -98,6 +100,27 @@ public class LoginFragment extends Fragment implements UserListener {
     }
 
     @Override
+    public void onValidateLogin(String token, String username) {
+
+        if (token != null) {
+            SharedPreferences sharedPrefUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPrefUser.edit();
+            editor.putString(MenuMainActivity.USERNAME, username);
+            editor.putString(MenuMainActivity.TOKEN, token);
+            editor.apply();
+
+            Fragment fragment = new MainFragment();
+            fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+            Toast.makeText(getContext(), "Bem Vindo!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Login Inválido", Toast.LENGTH_LONG).show();
+        }
+
+}
+
+
+    @Override
     public void onRefreshDetalhes(String response) {
 
     }
@@ -107,37 +130,25 @@ public class LoginFragment extends Fragment implements UserListener {
 
     }
 
-
-
     @Override
-    public void onValidateLogin(String token, String username) {
-        if (token != null) {
-            guardarInfoSharedPref(token, username);
-            Fragment fragment = new MainFragment();
-            fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
-            Toast.makeText(getContext(), "Bem Vindo!", Toast.LENGTH_LONG).show();
-        } else {
-            mPassword.setError("Utilizador ou Palavra-Passe Incorretos!");
-        }
+    public void onErroLogin() {
+        Toast.makeText(getContext(), "A sua conta não cumpre os requisitos para que seja possivel iniciar sessão! Para mais informações contacto o suporte.", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLoadEditarRegisto(Utilizador utilizador) {
-        
+
     }
 
-    @Override
-    public void onErroLogin() {
-        Toast.makeText(getContext(), "erro", Toast.LENGTH_LONG).show();
-    }
 
     private void guardarInfoSharedPref(String token, String username) {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
-        editor.putString(MenuMainActivity.TOKEN, token);
         editor.putString(MenuMainActivity.USERNAME, username);
+        editor.putString(MenuMainActivity.TOKEN, token);
 
         editor.apply();
     }
+
 }

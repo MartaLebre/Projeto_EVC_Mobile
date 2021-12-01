@@ -1,5 +1,6 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private FragmentManager fragmentManager;
-    private String token;
+    public String token = "";
     public static final String PREF_INFO_USER = "PREF_INFO_USER";
     public static final String USERNAME = "USERNAME";
     public static final String TOKEN = "TOKEN";
@@ -40,7 +42,6 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
         Toolbar toolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(toolbar);
-
 
 
         navigationView = findViewById(R.id.nav_view);
@@ -66,12 +67,16 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     public void carregarCabecalho(){
         SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        token = sharedPrefInfoUser.getString(TOKEN, null);
+        token = sharedPrefInfoUser.getString(USERNAME, "teste");
 
+
+        View hView = navigationView.getHeaderView(0);
+        TextView txtEmailHeader = hView.findViewById(R.id.tvUsername);
+        txtEmailHeader.setText(token);
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         carregarCabecalho();
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
@@ -87,20 +92,20 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_perfil:
-                if(token != null) {
+                if (token != null) {
                     fragment = new EditProfileFragment();
                     setTitle(menuItem.getTitle());
                     break;
-                }else{
+                } else {
                     fragment = new LoginFragment();
                     setTitle(menuItem.getTitle());
                     break;
                 }
             case R.id.nav_TerminarSessao:
-                if(token != null) {
+                if (token != null) {
+
                     SharedPreferences sharedPreferencesUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
-
                     editor.clear().apply();
 
                     fragment = new MainFragment();
@@ -108,7 +113,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
                     Toast.makeText(getApplicationContext(), "Terminou a sessão com sucesso!", Toast.LENGTH_LONG).show();
 
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Não tem login efectuado para terminar sessão!", Toast.LENGTH_LONG).show();
 
                 }

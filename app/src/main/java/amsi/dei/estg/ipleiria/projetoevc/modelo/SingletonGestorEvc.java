@@ -39,10 +39,6 @@ public class SingletonGestorEvc {
     private static  final int  EDITAR_BD = 2;
 
 
-    public void setUserListener(UserListener userListener){
-        this.userListener = userListener;
-    }
-
 
     public static synchronized SingletonGestorEvc getInstance(Context context) {
         if (instance == null) {
@@ -55,6 +51,10 @@ public class SingletonGestorEvc {
 
     private SingletonGestorEvc(Context context) {
 
+    }
+
+    public void setUserListener(UserListener userListener){
+        this.userListener = userListener;
     }
 
     public static boolean isConnectedInternet(Context context){

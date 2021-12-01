@@ -129,12 +129,19 @@ public class EditProfileFragment extends Fragment implements UserListener {
             case "2":
                 numeroTelemovel.setError("Este numero de telemovel já se encontra registado!");
                 break;
-            case "false":
+            case "true":
                 Fragment fragment = new LoginFragment();
                 fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
                 Toast.makeText(getContext(), "Bem Vindo(a), a sua conta foi registada com sucesso!", Toast.LENGTH_LONG).show();
                 break;
         }
+    }
+
+
+
+    @Override
+    public void onValidateLogin(String token, String username) {
+
     }
 
     @Override
@@ -162,7 +169,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
+    public void onErroLogin() {
 
     }
 
@@ -176,8 +183,5 @@ public class EditProfileFragment extends Fragment implements UserListener {
         numeroTelemovel.setText(utilizador.getNumeroTelemovel());
     }
 
-    @Override
-    public void onErroLogin() {
 
-    }
 }
