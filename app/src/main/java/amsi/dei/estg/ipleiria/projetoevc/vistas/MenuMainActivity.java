@@ -26,7 +26,6 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private FragmentManager fragmentManager;
-    private String token;
     public String username;
     public static final String PREF_INFO_USER = "PREF_INFO_USER";
     public static final String USERNAME = "USERNAME";
@@ -68,19 +67,17 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     public void carregarCabecalho(){
         SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        token = sharedPrefInfoUser.getString(USERNAME, "teste");
+        username = sharedPrefInfoUser.getString(USERNAME, "");
 
         View hView = navigationView.getHeaderView(0);
         TextView txtEmailHeader = hView.findViewById(R.id.tvUsername);
-        txtEmailHeader.setText(token);
+        txtEmailHeader.setText(username);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         carregarCabecalho();
-//        SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-//        token = sharedPrefInfoUser.getString(TOKEN, null);
 
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
@@ -96,7 +93,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_perfil:
-                if (token != null) {
+                if (username != null) {
                     fragment = new EditProfileFragment();
                     setTitle(menuItem.getTitle());
                     break;
@@ -104,12 +101,15 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                     fragment = new LoginFragment();
                     setTitle(menuItem.getTitle());
                     break;
+
                 }
+
             case R.id.nav_TerminarSessao:
-                if (token != null) {
+                if (username != null) {
 
                     SharedPreferences sharedPreferencesUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
+
                     editor.clear().apply();
 
                     fragment = new MainFragment();

@@ -58,7 +58,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
 
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-        String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+        String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
         SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), token);
 
@@ -78,7 +78,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), mPassword,token);
                 }
             }
@@ -100,7 +100,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     utilizador = new Utilizador(mUsername, mEmail,  mPassword, mPrimeiroNome, mUltimoNome , mNumeroTelemovel);
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(token, getContext());
 
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();

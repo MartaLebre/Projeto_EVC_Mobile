@@ -174,8 +174,8 @@ public class SingletonGestorEvc {
 
     }
 
-    public void getUserAPI(final Context context, String token) {
-            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserInfo + "/" + token, new Response.Listener<String>() {
+    public void getUserAPI(final Context context, String username) {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserInfo + "/" + username, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     utilizadores = UtilizadoresParserJson.parserJsonUtilizador(response);

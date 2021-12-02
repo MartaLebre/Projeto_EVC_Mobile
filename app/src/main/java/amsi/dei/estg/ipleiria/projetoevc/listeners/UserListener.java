@@ -5,7 +5,7 @@ import amsi.dei.estg.ipleiria.projetoevc.modelo.Utilizador;
 public interface UserListener {
     void onUserRegistado(String response);
 
-    void onValidateLogin(String token, String username);
+    void onValidateLogin(String username, String token);
 
     void onRefreshDetalhes(String response);
 
