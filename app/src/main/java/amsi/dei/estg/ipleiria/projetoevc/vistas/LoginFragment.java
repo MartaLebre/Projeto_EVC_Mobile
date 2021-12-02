@@ -100,11 +100,9 @@ public class LoginFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
-
+    public void onValidateLogin(String username, String token) {
         if (token != null) {
             SharedPreferences sharedPrefUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-
             SharedPreferences.Editor editor = sharedPrefUser.edit();
             editor.putString(MenuMainActivity.USERNAME, username);
             editor.putString(MenuMainActivity.TOKEN, token);

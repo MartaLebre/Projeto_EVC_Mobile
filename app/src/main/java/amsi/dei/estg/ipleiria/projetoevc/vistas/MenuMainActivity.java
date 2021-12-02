@@ -26,7 +26,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private FragmentManager fragmentManager;
-    public String token = "";
+    private String token;
+    public String username;
     public static final String PREF_INFO_USER = "PREF_INFO_USER";
     public static final String USERNAME = "USERNAME";
     public static final String TOKEN = "TOKEN";
@@ -69,7 +70,6 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         token = sharedPrefInfoUser.getString(USERNAME, "teste");
 
-
         View hView = navigationView.getHeaderView(0);
         TextView txtEmailHeader = hView.findViewById(R.id.tvUsername);
         txtEmailHeader.setText(token);
@@ -77,7 +77,11 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
         carregarCabecalho();
+//        SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+//        token = sharedPrefInfoUser.getString(TOKEN, null);
+
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
                 setTitle(menuItem.getTitle());
