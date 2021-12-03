@@ -53,9 +53,10 @@ public class EditProfileFragment extends Fragment implements UserListener {
         primeiroNome = view.findViewById(R.id.etprimeiroNome);
         numeroTelemovel = view.findViewById(R.id.etTelemovel);
 
-        SharedPreferences sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
-        SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), username);
+        SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), user);
 
         Button button = view.findViewById(R.id.btnUpdate);
         button.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +72,8 @@ public class EditProfileFragment extends Fragment implements UserListener {
                     utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
 
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
-                    SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(token, getContext());
+                    String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(user, getContext());
 
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 

@@ -118,7 +118,7 @@ public class SingletonGestorEvc {
 
 
     public void editarUtilizadorAPI(final Utilizador utilizador, final Context context, final String oldPassword, final String username) {
-        StringRequest req = new StringRequest(Request.Method.PUT, mUrlAPIEditarRegistoUser, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.PUT, mUrlAPIEditarRegistoUser + "/" + username, new Response.Listener<String>() {
 
             public void onResponse(String response) {
                 if (userListener != null) {
@@ -177,7 +177,7 @@ public class SingletonGestorEvc {
 
 
     public void apagarContaAPI(String username, final Context context) {
-        StringRequest req = new StringRequest(Request.Method.PATCH, mUrlAPIApagarUser + username, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.PATCH, mUrlAPIApagarUser + "/" + username, new Response.Listener<String>() {
 
             public void onResponse(String response) {
                 if (userListener != null) {

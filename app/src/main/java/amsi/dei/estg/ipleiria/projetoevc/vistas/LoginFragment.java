@@ -39,14 +39,14 @@ public class LoginFragment extends Fragment implements UserListener {
 
         fragmentManager = getFragmentManager();
 
-        mUsername = view.findViewById(R.id.mUsername);
-        mUsername = view.findViewById(R.id.mPassword);
+        mUsername = view.findViewById(R.id.etUsername);
+        mUsername = view.findViewById(R.id.etPassword);
 
         Button btnLogin = view.findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SingletonGestorEvc.isConnectionInternet(getContext())) {
+                if (SingletonGestorEvc.isConnectedInternet(getContext())) {
                     String username = mUsername.getText().toString();
                     String password = mPassword.getText().toString();
 
@@ -131,11 +131,11 @@ public class LoginFragment extends Fragment implements UserListener {
 
     }
 
-    private void guardarInfoSharedPref(String token, String email) {
+    private void guardarInfoSharedPref(String token, String username) {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
-        editor.putString(MenuMainActivity.USERNAME, email);
+        editor.putString(MenuMainActivity.USERNAME, username);
         editor.putString(MenuMainActivity.TOKEN, token);
 
         editor.apply();
