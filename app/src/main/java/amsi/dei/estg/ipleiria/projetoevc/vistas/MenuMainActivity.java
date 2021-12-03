@@ -29,12 +29,12 @@ import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
 
 public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public static final String USERNAME = "USERNAME";
     public static final String TOKEN = "TOKEN";
     public static final String PREF_INFO_USER = "PREF_INFO_USER";
     private FragmentManager fragmentManager;
     private String username;
+    private String token;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -95,19 +95,13 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_favoritos:
-                //fragment = new ListaAnuncioFragment();
+                fragment = new EditProfileFragment();
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_perfil:
-                if(username != null){
-                    fragment = new EditProfileFragment();
-                    setTitle(menuItem.getTitle());
-                    break;
-                }else{
-                    fragment = new LoginFragment();
-                    setTitle(menuItem.getTitle());
-                    break;
-                }
+                fragment = new LoginFragment();
+                setTitle(menuItem.getTitle());
+                break;
 
             case R.id.nav_TerminarSessao:
                 if(username != null){

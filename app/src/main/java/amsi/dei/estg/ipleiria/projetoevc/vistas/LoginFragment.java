@@ -38,9 +38,8 @@ public class LoginFragment extends Fragment implements UserListener {
         SingletonGestorEvc.getInstance(getContext()).setUserListener(this);
 
         fragmentManager = getFragmentManager();
-
         mUsername = view.findViewById(R.id.etUsername);
-        mUsername = view.findViewById(R.id.etPassword);
+        mPassword = view.findViewById(R.id.etPassword);
 
         Button btnLogin = view.findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {

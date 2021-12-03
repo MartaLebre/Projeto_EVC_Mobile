@@ -1,9 +1,11 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -56,7 +58,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
         String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
-        SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), user);
+        //SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), user);
 
         Button button = view.findViewById(R.id.btnUpdate);
         button.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +75,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
                     String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
-                    SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(user, getContext());
+                    SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), user);
 
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
@@ -81,23 +83,25 @@ public class EditProfileFragment extends Fragment implements UserListener {
                 }
             }
         });
-        return view;
-    }
 
+        Button buttonApagar = view.findViewById(R.id.btnDelete);
+        buttonApagar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (SingletonGestorEvc.isConnectedInternet(getContext())) {
+                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+                    String username = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+
+                    apagar(username);
+                }
+            }
+        });
+
+        return  view;
+    }
 
     @Override
     public void onUserRegistado(String response) {
         switch (response) {
-            case "0":
-                Log.e("eee", "1111");
-                email.setError("Este email já se encontra registado!");
-                break;
-            case "1":
-                username.setError("Este nome de utilizador já se encontra registado!");
-                break;
-            case "2":
-                numeroTelemovel.setError("Este numero de telemovel já se encontra registado!");
-                break;
             case "true":
                 Fragment fragment = new LoginFragment();
                 fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
@@ -125,7 +129,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
     @Override
     public void onApagarConta(String response) {
         switch (response) {
-            case "null":
+            case "true":
                 Fragment fragment = new SignupFragment();
                 fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
                 Toast.makeText(getContext(), "A sua conta foi apagada com sucesso!", Toast.LENGTH_LONG).show();
@@ -146,5 +150,25 @@ public class EditProfileFragment extends Fragment implements UserListener {
         primeiroNome.setText(utilizador.getPrimeiroNome());
         ultimoNome.setText(utilizador.getUltimoNome());
         numeroTelemovel.setText(utilizador.getNumeroTelemovel());
+    }
+
+    private void apagar(final String username) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Apagar Conta")
+                .setMessage("Tem a certeza que pretende apagar a conta?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SingletonGestorEvc.getInstance(getContext()).apagarContaAPI(username, getContext());
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_delete)
+                .show();
     }
 }

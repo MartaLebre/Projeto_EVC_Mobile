@@ -167,18 +167,7 @@ public class SignupFragment extends Fragment implements UserListener {
     @Override
     public void onUserRegistado(String response) {
         Log.e("resposta", response);
-
         switch (response) {
-            case "0":
-                Log.e("eee", "1111");
-                email.setError("Este email já se encontra registado!");
-                break;
-            case "1":
-                username.setError("Este nome de utilizador já se encontra registado!");
-                break;
-            case "2":
-                numeroTelemovel.setError("Este numero de telemovel já se encontra registado!");
-                break;
             case "true":
                 Fragment fragment = new LoginFragment();
                 fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();

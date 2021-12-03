@@ -25,7 +25,7 @@ public class SingletonGestorEvc {
 
     //192.168.1.189
     private static SingletonGestorEvc instance = null;
-    private Utilizador utilizadores;
+    private Utilizador utilizador;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
     private static final String mUrlAPIRegistarUser = "http://192.168.1.68:8080/v1/user/registo";
     private static final String mUrlAPIUserLogin = "http://192.168.1.68:8080/v1/user/login";
@@ -100,10 +100,10 @@ public class SingletonGestorEvc {
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserInfo + "/" + username, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    utilizadores = UtilizadoresParserJson.parserJsonUtilizador(response);
+                    utilizador = UtilizadoresParserJson.parserJsonUtilizador(response);
 
                     if (userListener != null)
-                        userListener.onLoadEditarRegisto(utilizadores);
+                        userListener.onLoadEditarRegisto(utilizador);
 
                 }
             }, new Response.ErrorListener() {
@@ -117,7 +117,7 @@ public class SingletonGestorEvc {
     }
 
 
-    public void editarUtilizadorAPI(final Utilizador utilizador, final Context context, final String oldPassword, final String username) {
+    public void editarUtilizadorAPI(final Utilizador utilizador, final Context context, final String username) {
         StringRequest req = new StringRequest(Request.Method.PUT, mUrlAPIEditarRegistoUser + "/" + username, new Response.Listener<String>() {
 
             public void onResponse(String response) {
@@ -194,7 +194,4 @@ public class SingletonGestorEvc {
         volleyQueue.add(req);
 
     }
-
-
-
 }
