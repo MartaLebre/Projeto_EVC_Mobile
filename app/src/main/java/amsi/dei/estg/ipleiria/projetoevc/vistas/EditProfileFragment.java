@@ -55,7 +55,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
         primeiroNome = view.findViewById(R.id.etprimeiroNome);
         numeroTelemovel = view.findViewById(R.id.etTelemovel);
 
-        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
         //SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), user);
@@ -73,7 +73,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
 
                     utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
 
-                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
                     String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), user);
 
@@ -88,10 +88,10 @@ public class EditProfileFragment extends Fragment implements UserListener {
         buttonApagar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
-                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
-                    String username = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
+                    SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
+                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
 
-                    apagar(username);
+                    apagar(token);
                 }
             }
         });
@@ -111,7 +111,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
+    public void onValidateLogin(String username, String token) {
 
     }
 

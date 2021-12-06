@@ -14,13 +14,18 @@
         <item
             android:id="@+id/nav_favoritos"
             android:title="Favoritos" />
-    <item
-                android:id="@+id/nav_perfil"
-                android:title="Perfil" />
+        <item
+            android:id="@+id/nav_editarPerfil"
+            android:title="Editar Perfil" />
+
 
     </group>
-    <item android:title="Terminar Sesão">
+
+    <item android:title="Login">
         <menu>
+            <item
+                android:id="@+id/nav_login"
+                android:title="Login" />
             <item
                 android:id="@+id/nav_TerminarSessao"
                 android:title="Terminar Sessão"

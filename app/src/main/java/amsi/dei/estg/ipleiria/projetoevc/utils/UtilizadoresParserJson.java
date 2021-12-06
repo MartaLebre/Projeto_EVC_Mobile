@@ -55,14 +55,14 @@ public class UtilizadoresParserJson {
     }
 
     public static String parserJsonLogin(String response) {
-        String username = null;
+        String token = null;
         try {
             JSONObject login = new JSONObject(response);
-                username = login.getString("username");
+                token = login.getString("verification_token");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return username;
+        return token;
     }
 
 }

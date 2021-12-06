@@ -99,9 +99,9 @@ public class LoginFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String token, String username) {
-        if(username != null){
-            guardarInfoSharedPref(token, username);
+    public void onValidateLogin(String username, String token) {
+        if(token != null){
+            guardarInfoSharedPref(username, token);
             Fragment fragment = new MainFragment();
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
             Toast.makeText(getContext(), "Bem Vindo!", Toast.LENGTH_LONG).show();
@@ -130,13 +130,13 @@ public class LoginFragment extends Fragment implements UserListener {
 
     }
 
-    private void guardarInfoSharedPref(String token, String username) {
-        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.PREF_INFO_USER, Context.MODE_PRIVATE);
+    private void guardarInfoSharedPref(String username, String token) {
+        SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 
-        editor.putString(MenuMainActivity.USERNAME, username);
         editor.putString(MenuMainActivity.TOKEN, token);
+        editor.putString(MenuMainActivity.USERNAME, username);
 
-        editor.apply();
+        editor.commit();
     }
 }
