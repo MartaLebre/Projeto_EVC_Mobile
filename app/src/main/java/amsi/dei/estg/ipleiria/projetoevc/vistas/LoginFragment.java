@@ -99,9 +99,9 @@ public class LoginFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String username, String token) {
+    public void onValidateLogin(String token, String username) {
         if(token != null){
-            guardarInfoSharedPref(username, token);
+            guardarInfoSharedPref(token, username);
             Fragment fragment = new MainFragment();
             fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
             Toast.makeText(getContext(), "Bem Vindo!", Toast.LENGTH_LONG).show();
@@ -122,7 +122,7 @@ public class LoginFragment extends Fragment implements UserListener {
 
     @Override
     public void onErroLogin() {
-        Toast.makeText(getContext(), "A sua conta não cumpre os requisitos para que seja possivel iniciar sessão! Para mais informações contacto o suporte.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "A sua conta não cumpre os requisitos para que seja possivel iniciar sessão!", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment implements UserListener {
 
     }
 
-    private void guardarInfoSharedPref(String username, String token) {
+    private void guardarInfoSharedPref(String token, String username) {
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesUser.edit();
 

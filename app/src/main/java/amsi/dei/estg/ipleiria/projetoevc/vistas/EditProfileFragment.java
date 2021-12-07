@@ -56,29 +56,27 @@ public class EditProfileFragment extends Fragment implements UserListener {
         numeroTelemovel = view.findViewById(R.id.etTelemovel);
 
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
-        String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
-        //SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), user);
+        String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+        SingletonGestorEvc.getInstance(getContext()).getUserAPI(getContext(), token);
 
         Button button = view.findViewById(R.id.btnUpdate);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
-                    String mUsername = username.getText().toString();
-                    String mEmail = email.getText().toString();
-                    String mPassword = password.getText().toString();
-                    String mPrimeiroNome = primeiroNome.getText().toString();
-                    String mUltimoNome = ultimoNome.getText().toString();
-                    String mNumeroTelemovel = numeroTelemovel.getText().toString();
+                    String Username = username.getText().toString();
+                    String Email = email.getText().toString();
+                    String Password = password.getText().toString();
+                    String PrimeiroNome = primeiroNome.getText().toString();
+                    String UltimoNome = ultimoNome.getText().toString();
+                    String NumeroTelemovel = numeroTelemovel.getText().toString();
 
-                    utilizador = new Utilizador(mUsername, mEmail, mPassword, mPrimeiroNome, mUltimoNome, mNumeroTelemovel);
+                    utilizador = new Utilizador(Username, Email, Password, PrimeiroNome, UltimoNome, NumeroTelemovel);
 
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
                     String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), user);
-
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
-
                     editor.clear().apply();
                 }
             }
@@ -89,67 +87,14 @@ public class EditProfileFragment extends Fragment implements UserListener {
             public void onClick(View v) {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
-                    String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
+                    String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
 
-                    apagar(token);
+                    apagar(user);
                 }
             }
         });
 
         return  view;
-    }
-
-    @Override
-    public void onUserRegistado(String response) {
-        switch (response) {
-            case "true":
-                Fragment fragment = new LoginFragment();
-                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
-                Toast.makeText(getContext(), "Bem Vindo(a), a sua conta foi registada com sucesso!", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
-    @Override
-    public void onValidateLogin(String username, String token) {
-
-    }
-
-    @Override
-    public void onRefreshDetalhes(String response) {
-        switch (response) {
-            case "true":
-                Fragment fragment = new MainFragment();
-                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
-                Toast.makeText(getContext(), "A sua conta foi atualizada com sucesso!", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
-    @Override
-    public void onApagarConta(String response) {
-        switch (response) {
-            case "true":
-                Fragment fragment = new SignupFragment();
-                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
-                Toast.makeText(getContext(), "A sua conta foi apagada com sucesso!", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
-    @Override
-    public void onErroLogin() {
-
-    }
-
-    @Override
-    public void onLoadEditarRegisto(Utilizador utilizador) {
-        username.setText(utilizador.getUsername());
-        email.setText(utilizador.getEmail());
-        password.setText(utilizador.getPassword());
-        primeiroNome.setText(utilizador.getPrimeiroNome());
-        ultimoNome.setText(utilizador.getUltimoNome());
-        numeroTelemovel.setText(utilizador.getNumeroTelemovel());
     }
 
     private void apagar(final String username) {
@@ -170,5 +115,63 @@ public class EditProfileFragment extends Fragment implements UserListener {
                 })
                 .setIcon(android.R.drawable.ic_delete)
                 .show();
+    }
+
+    @Override
+    public void onUserRegistado(String response) {
+        switch (response) {
+            case "true":
+                Fragment fragment = new LoginFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "Bem Vindo(a), a sua conta foi registada com sucesso!", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onValidateLogin(String token, String username) {
+
+    }
+
+    @Override
+    public void onRefreshDetalhes(String response) {
+        switch (response) {
+            case "true":
+                Fragment fragment = new MainFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+                Toast.makeText(getContext(), "A sua conta foi atualizada com sucesso!", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onApagarConta(String response) {
+        switch (response) {
+            case "true":
+                SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferencesUser.edit();
+                editor.clear();
+                editor.commit();
+                Fragment fragment = new LoginFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
+                Toast.makeText(getContext(), "A sua conta foi apagada com sucesso!", Toast.LENGTH_LONG).show();
+
+                break;
+        }
+    }
+
+    @Override
+    public void onErroLogin() {
+
+    }
+
+    @Override
+    public void onLoadEditarRegisto(Utilizador utilizador) {
+        username.setText(utilizador.getUsername());
+        email.setText(utilizador.getEmail());
+        password.setText(utilizador.getPassword());
+        primeiroNome.setText(utilizador.getPrimeiroNome());
+        ultimoNome.setText(utilizador.getUltimoNome());
+        numeroTelemovel.setText(utilizador.getNumeroTelemovel());
     }
 }

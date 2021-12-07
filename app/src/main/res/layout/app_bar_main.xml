@@ -8,13 +8,13 @@ android:layout_height="match_parent">
     android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/design_default_color_primary_variant"
+    android:background="@color/purple_200"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/design_default_color_primary_variant"
+        android:background="@color/purple_200"
         android:id="@+id/myToolBar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 

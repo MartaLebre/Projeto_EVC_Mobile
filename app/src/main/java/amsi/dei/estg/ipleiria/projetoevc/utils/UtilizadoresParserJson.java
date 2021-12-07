@@ -43,7 +43,7 @@ public class UtilizadoresParserJson {
             JSONObject utilizador = new JSONObject(response);
             String Username = utilizador.getString("username");
             String Email = utilizador.getString("email");
-            String Password = utilizador.getString("password");
+            //String Password = utilizador.getString("password");
             String PrimeiroNome = utilizador.getString("primeiro_nome");
             String UltimoNome = utilizador.getString("ultimo_nome");
             String NumeroTelemovel = utilizador.getString("telemovel");
@@ -58,7 +58,7 @@ public class UtilizadoresParserJson {
         String token = null;
         try {
             JSONObject login = new JSONObject(response);
-                token = login.getString("verification_token");
+            token=login.getString("verification_token");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -9,7 +9,4 @@ public interface UserListener {
     void onApagarConta(String response);
     void onErroLogin();
     void onLoadEditarRegisto(Utilizador utilizador);
-
-
-
 }

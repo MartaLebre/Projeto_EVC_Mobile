@@ -33,8 +33,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     public static final String TOKEN = "TOKEN";
     public static final String INFO_USER = "INFO_USER";
     private FragmentManager fragmentManager;
-    private String username;
-    private String token = "";
+    private String username = "";
+    private String token;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -75,15 +75,18 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     public void carregarCabecalho(){
         SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
-        token = sharedPrefInfoUser.getString(TOKEN, "");
+        username = sharedPrefInfoUser.getString(USERNAME, "");
         View hView = navigationView.getHeaderView(0);
         TextView txtEmailHeader = hView.findViewById(R.id.tvUsername);
-        txtEmailHeader.setText(token);
+        txtEmailHeader.setText(username);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         carregarCabecalho();
+
+        SharedPreferences sharedPrefInfoUser = getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
+        token = sharedPrefInfoUser.getString(TOKEN, null);
 
         switch (menuItem .getItemId()) {
             case R.id.nav_inicial:
@@ -91,7 +94,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 fragment = new MainFragment();
                 break;
             case R.id.nav_produtos:
-                //ragment = new ListaAnuncioFragment();
+                fragment = new ListaProdutosFragment();
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_favoritos:
@@ -99,13 +102,23 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_editarPerfil:
+                if(token != null){
                     fragment = new EditProfileFragment();
                     setTitle(menuItem.getTitle());
                     break;
+                }else{
+                    Toast.makeText(getApplicationContext(), "Não tem sessão iniciada", Toast.LENGTH_LONG).show();
+                    break;
+                }
             case R.id.nav_login:
+                if(token != null){
+                    Toast.makeText(getApplicationContext(), "sessão iniciada", Toast.LENGTH_LONG).show();
+                    break;
+                }else{
                     fragment = new LoginFragment();
                     setTitle(menuItem.getTitle());
                     break;
+                }
             case R.id.nav_TerminarSessao:
                 if(token != null){
                     SharedPreferences sharedPreferencesUser = getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);

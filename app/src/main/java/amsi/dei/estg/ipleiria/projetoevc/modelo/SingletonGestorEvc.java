@@ -3,22 +3,25 @@ package amsi.dei.estg.ipleiria.projetoevc.modelo;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
+import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
 import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
 
 public class SingletonGestorEvc {
@@ -26,14 +29,17 @@ public class SingletonGestorEvc {
     //192.168.1.189
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
+    private ArrayList<Produto> produtos;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
     private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
     private static final String mUrlAPIUserLogin = "http://192.168.1.177:8080/v1/user/login";
     private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.177:8080/v1/user/editar";
     private static final String mUrlAPIApagarUser = "http://192.168.1.177:8080/v1/user/apagar";
-    private static final String mUrlAPIUserInfo = "http://192.168.1.177:8080/v1/user/detalhes";
+    private static final String mUrlAPIUserDetalhes = "http://192.168.1.177:8080/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = "http://192.168.1.177:8080/v1/produto";
 
-    public UserListener userListener;
+    private UserListener userListener;
+    protected ProdutosListener produtosListener;
 
     public static synchronized SingletonGestorEvc getInstance(Context context) {
         if (instance == null) {
@@ -49,6 +55,10 @@ public class SingletonGestorEvc {
 
     public void setUserListener(UserListener userListener) {
         this.userListener = userListener;
+    }
+
+    public void setProdutosListener(ProdutosListener produtosListener) {
+        this.produtosListener = produtosListener;
     }
 
     public static boolean isConnectedInternet(Context context){
@@ -95,9 +105,9 @@ public class SingletonGestorEvc {
         volleyQueue.add(req);
     }
 
-    public void getUserAPI(final Context context, String username) {
+    public void getUserAPI(final Context context, String token) {
 
-            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserInfo + "/" + username, new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserDetalhes + "/" + token, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     utilizador = UtilizadoresParserJson.parserJsonUtilizador(response);
@@ -149,10 +159,10 @@ public class SingletonGestorEvc {
         StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIUserLogin, new Response.Listener<String>() {
 
             public void onResponse(String response) {
+                String token = UtilizadoresParserJson.parserJsonLogin(response);
                 if (userListener != null) {
-                    userListener.onValidateLogin(UtilizadoresParserJson.parserJsonLogin(response), username);
+                    userListener.onValidateLogin(token, username);
                 }
-
             }
         }, new Response.ErrorListener() {
 
@@ -171,7 +181,6 @@ public class SingletonGestorEvc {
                 return params;
             }
         };
-        Log.e("12", req.toString());
         volleyQueue.add(req);
     }
 
@@ -192,6 +201,36 @@ public class SingletonGestorEvc {
             }
         });
         volleyQueue.add(req);
-
     }
+
+    public void getAllProdutosAPI(final Context context) {
+        /*if(!Produto.isConnectionInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à Internet", Toast.LENGTH_LONG).show();
+
+            if(livrosListener != null) {
+                livrosListener.onRefreshListaLivros(livrosBD.getAllLivrosBD());
+            }
+        }
+        else {*/
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
+                    //adicionarLivrosBD(livros);
+
+                    if(produtosListener != null) {
+                        produtosListener.onRefreshListaLivros(produtos);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(request);
+    }
+
+
+
 }

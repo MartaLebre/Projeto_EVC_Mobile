@@ -188,7 +188,7 @@ public class SignupFragment extends Fragment implements UserListener {
     }
 
     @Override
-    public void onValidateLogin(String username, String token) {
+    public void onValidateLogin(String token, String username) {
 
     }
 
