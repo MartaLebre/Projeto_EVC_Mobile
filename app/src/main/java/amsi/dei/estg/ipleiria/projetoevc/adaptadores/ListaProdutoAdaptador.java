@@ -67,9 +67,10 @@ public class ListaProdutoAdaptador extends BaseAdapter {
     }
 
     private class ViewHolderLista{
-        private TextView tvNome, tvGenero, tvDescricao, tvTamanho, tvPreco;
+        private TextView tvCodigo_Produto, tvNome, tvGenero, tvDescricao, tvTamanho, tvPreco;
 
         public ViewHolderLista(View view){
+            tvCodigo_Produto = view.findViewById(R.id.tvCodigo_Produto);
             tvNome = view.findViewById(R.id.tvNome);
             tvGenero = view.findViewById(R.id.tvGenero);
             tvDescricao = view.findViewById(R.id.tvDescricao);
@@ -78,6 +79,7 @@ public class ListaProdutoAdaptador extends BaseAdapter {
         }
 
         public void update(Produto produto){
+            tvCodigo_Produto.setText(produto.getCodigo_produto());
             tvNome.setText(produto.getNome());
             tvGenero.setText(produto.getGenero());
             tvDescricao.setText(produto.getDescricao());

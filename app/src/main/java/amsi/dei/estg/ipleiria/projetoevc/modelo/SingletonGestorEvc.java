@@ -30,6 +30,7 @@ public class SingletonGestorEvc {
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
     private ArrayList<Produto> produtos;
+    private ProdutoDBHelper produtosDB=null;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
     private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
     private static final String mUrlAPIUserLogin = "http://192.168.1.177:8080/v1/user/login";
@@ -59,6 +60,59 @@ public class SingletonGestorEvc {
 
     public void setProdutosListener(ProdutosListener produtosListener) {
         this.produtosListener = produtosListener;
+    }
+
+    public Produto getProduto(int codigo_produto){
+        for(Produto p: produtos){
+            if(p.getCodigo_produto() == codigo_produto)
+                return p;
+        }
+        return null;
+    }
+
+    /*********** Metodos para aceder a BD local ************/
+
+    public ArrayList<Produto> getProdutosDB() {
+        produtos = produtosDB.getAllProdutosBD();
+
+        return produtos;
+        // return new ArrayList<>(livros);
+    }
+
+    public void adicionarProdutoBD(Produto produto){
+        produtosDB.adicionarProdutoBD(produto);
+        //Livro auxLivro = livrosBD.adicionarLivroBD(livro);
+        // if(auxLivro!= null)
+        //livros.add(auxLivro);
+        //livros.add(livro);
+    }
+
+    public void adicionarProdutosBD(ArrayList<Produto> produtos){
+        produtosDB.removerAllProdutosBD();
+        for(Produto p : produtos)
+            adicionarProdutoBD(p);
+    }
+
+    public void editarProdutoBD(Produto produto){
+        Produto produtoAux = getProduto(produto.getCodigo_produto());
+        if(produtoAux != null)
+            produtosDB.editarProdutoBD(produtoAux);
+            /*
+            if(livrosBD.editarLivroBD(livroAux)) {
+                livroAux.setTitulo(livro.getTitulo());
+                livroAux.setAutor(livro.getAutor());
+                livroAux.setCapa(livro.getCapa());
+                livroAux.setSerie(livro.getSerie());
+                livroAux.setAno(livro.getAno());
+              */
+    }
+
+    public void removerProdutoBD(int codigo_produto){
+        Produto produto = getProduto(codigo_produto);
+        if(produto!=null)
+            //if(livrosBD.removerLivroBD(id))
+            //livros.remove(livro);
+            produtosDB.removerProdutoBD(codigo_produto);
     }
 
     public static boolean isConnectedInternet(Context context){
@@ -219,7 +273,7 @@ public class SingletonGestorEvc {
                     //adicionarLivrosBD(livros);
 
                     if(produtosListener != null) {
-                        produtosListener.onRefreshListaLivros(produtos);
+                        produtosListener.onRefreshListaProdutos(produtos);
                     }
                 }
             }, new Response.ErrorListener() {

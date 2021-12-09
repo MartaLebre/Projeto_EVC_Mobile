@@ -23,8 +23,13 @@ public class ProdutoJsonParser {
                 String Descricao = produto.getString("descricao");
                 String Tamanho = produto.getString("tamanho");
                 double Preco = produto.getDouble("preco");
+                int Quantidade = produto.getInt("quantidade");
+                String Data = produto.getString("data");
+                int Id_modelo = produto.getInt("id_modelo");
+                String Foto = produto.getString("foto");
 
-                Produto auxProduto = new Produto(CodigoProduto, Nome, Genero, Descricao, Tamanho, (float) Preco);
+                Produto auxProduto = new Produto(CodigoProduto, Nome, Genero, Descricao, Tamanho, (float) Preco, Quantidade, Data, Id_modelo, Foto);
+                produtos.add(auxProduto);
             }
         } catch(JSONException e) {
             e.printStackTrace();
@@ -44,8 +49,12 @@ public class ProdutoJsonParser {
            String Descricao = produto.getString("descricao");
            String Tamanho = produto.getString("tamanho");
            double Preco = produto.getDouble("preco");
+           int Quantidade = produto.getInt("quantidade");
+           String Data = produto.getString("data");
+           int Id_modelo = produto.getInt("id_modelo");
+           String Foto = produto.getString("foto");
 
-           auxProduto = new Produto(CodigoProduto, Nome, Genero, Descricao, Tamanho, (float) Preco);
+           auxProduto = new Produto(CodigoProduto, Nome, Genero, Descricao, Tamanho, (float) Preco, Quantidade, Data, Id_modelo, Foto);
 
        } catch (JSONException e) {
            e.printStackTrace();

@@ -35,7 +35,7 @@ import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
 public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ProdutosListener {
 
     private ListView lvListaProdutos;
-    private ArrayList<Produto> listaProdutos;
+    //private ArrayList<Produto> listaProdutos;
     private SearchView searchView;
     private static final int EDITAR = 2;
     private static final int ADICIONAR = 3;
@@ -53,6 +53,15 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         View view = inflater.inflate(R.layout.fragment_lista_produtos, container, false);
 
         lvListaProdutos = view.findViewById(R.id.lvListaProdutos);
+        lvListaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long codigo_produto) {
+                Intent intent = new Intent(getContext(), DetalhesProdutoFragment.class);
+                intent.putExtra("CODIGO_PRODUTO" , (int)codigo_produto);
+                //startActivity(intent);
+                startActivityForResult(intent,EDITAR);
+            }
+        });
 
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosAPI(getContext());
         //SingletonGestorEvc.getInstance(getContext()).setProdutosListener(this);
@@ -63,6 +72,22 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
 
         return view;
     }
+
+    /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case EDITAR:
+                    pro = SingletonGestorEvc.getInstance(getContext()).getProdutosDB();
+                    lvListaProdutos.setAdapter(new ListaProdutoAdaptador(getContext(), listaProdutos));
+                    //Toast.makeText(getContext(), "Livro Editado com sucesso", Toast.LENGTH_LONG).show();
+                    Snackbar.make(getView(),"Produto Editado com sucesso", Snackbar.LENGTH_LONG).show();
+                    break;
+            }
+        }
+        //atualizar a lista
+        //apresentar um toast
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
 
     @Override
     public void onResume() {
@@ -77,9 +102,9 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
     }
 
     @Override
-    public void onRefreshListaLivros(ArrayList<Produto> listaProdutos) {
-        if(listaProdutos != null) {
-            lvListaProdutos.setAdapter(new ListaProdutoAdaptador(getContext(), listaProdutos));
+    public void onRefreshListaProdutos(ArrayList<Produto> produtos) {
+        if(produtos != null) {
+            lvListaProdutos.setAdapter(new ListaProdutoAdaptador(getContext(), produtos));
         }
     }
 
