@@ -27,6 +27,11 @@
             android:name=".vistas.MenuMainActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+
+        <activity
+            android:name=".vistas.DetalhesProdutoFragment"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
     </application>
 
 </manifest>

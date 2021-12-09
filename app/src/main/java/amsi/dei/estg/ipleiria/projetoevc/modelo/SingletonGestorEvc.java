@@ -62,10 +62,11 @@ public class SingletonGestorEvc {
         this.produtosListener = produtosListener;
     }
 
-    public Produto getProduto(int codigo_produto){
+    public Produto getProduto(int id){
         for(Produto p: produtos){
-            if(p.getCodigo_produto() == codigo_produto)
+            if(p.getCodigo_produto() == id){
                 return p;
+            }
         }
         return null;
     }

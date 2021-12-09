@@ -79,12 +79,12 @@ public class ListaProdutoAdaptador extends BaseAdapter {
         }
 
         public void update(Produto produto){
-            tvCodigo_Produto.setText(produto.getCodigo_produto());
+            tvCodigo_Produto.setText(produto.getCodigo_produto()  + "");
             tvNome.setText(produto.getNome());
             tvGenero.setText(produto.getGenero());
             tvDescricao.setText(produto.getDescricao());
             tvTamanho.setText(produto.getTamanho());
-            tvPreco.setText((int) produto.getPreco());
+            tvPreco.setText((int) produto.getPreco()  + "");
         }
     }
 }

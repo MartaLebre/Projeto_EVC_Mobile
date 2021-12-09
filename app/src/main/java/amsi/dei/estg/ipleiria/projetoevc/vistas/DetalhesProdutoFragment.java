@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,10 +34,10 @@ import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
 
 public class DetalhesProdutoFragment extends AppCompatActivity implements ProdutosListener {
 
-    public static final String CODIGO_PRODUTO = "CODIGO_PRODUTO";
+    public static final String ID = "ID";
     private static final String DEFAULT_IMAGE = "http://amsi.dei.estg.ipleiria.pt/img/ipl_semfundo.png";
     private Produto produto;
-    private EditText etCodigo_Produto, etNome, etGenero, etDescricao, etTamanho, etPreco;
+    private TextView etCodigo_Produto, etNome, etGenero, etDescricao, etTamanho, etPreco;
     private ImageView imgCapa;
     private String token;
 
@@ -45,8 +46,8 @@ public class DetalhesProdutoFragment extends AppCompatActivity implements Produt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_detalhes_produto);
 
-        int codigo_produto = getIntent().getIntExtra(CODIGO_PRODUTO, -1);
-        produto = SingletonGestorEvc.getInstance(getApplicationContext()).getProduto(codigo_produto);
+        int id = getIntent().getIntExtra(ID, -1);
+        produto = SingletonGestorEvc.getInstance(getApplicationContext()).getProduto(id);
 
         etCodigo_Produto = findViewById(R.id.etCodigo_Produto);
         etNome = findViewById(R.id.etNome);
@@ -69,17 +70,17 @@ public class DetalhesProdutoFragment extends AppCompatActivity implements Produt
     }
 
     private void carregarDetalhesProduto() {
-        etCodigo_Produto.setText(produto.getCodigo_produto());
+        etCodigo_Produto.setText(produto.getCodigo_produto() + "");
         etNome.setText(produto.getNome());
         etGenero.setText(produto.getGenero());
         etDescricao.setText(produto.getDescricao());
         etTamanho.setText(produto.getTamanho());
-        etPreco.setText((int) produto.getPreco());
+        etPreco.setText((int) produto.getPreco() + "");
         //imgCapa.setImageResource(livro.getCapa());
     }
 
     @Override
-    public void onRefreshListaProdutos(ArrayList<Produto> listaProdutos) {
+    public void onRefreshListaProdutos(ArrayList<Produto> produtos) {
 
     }
 
