@@ -32,12 +32,12 @@ public class SingletonGestorEvc {
     private ArrayList<Produto> produtos;
     private ProdutoDBHelper produtosDB=null;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
-    private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.1.177:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.177:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.1.177:8080/v1/user/apagar";
-    private static final String mUrlAPIUserDetalhes = "http://192.168.1.177:8080/v1/user/detalhes";
-    private static final String mUrlAPIProdutos = "http://192.168.1.177:8080/v1/produto";
+    private static final String mUrlAPIRegistarUser = "http://192.168.1.68:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.1.68:8080/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.68:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.1.68:8080/v1/user/apagar";
+    private static final String mUrlAPIUserDetalhes = "http://192.168.1.68:8080/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = "http://192.168.1.68:8080/v1/produto";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;

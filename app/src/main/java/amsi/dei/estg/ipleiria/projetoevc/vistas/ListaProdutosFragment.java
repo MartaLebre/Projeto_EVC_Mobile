@@ -66,12 +66,22 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosAPI(getContext());
         //SingletonGestorEvc.getInstance(getContext()).setProdutosListener(this);
 
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Scan", Toast.LENGTH_LONG).show();
+            }
+        });
+
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
         return view;
     }
+
+
 
     /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK) {
