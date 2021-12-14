@@ -21,6 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 
@@ -70,7 +72,12 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Scan", Toast.LENGTH_LONG).show();
+                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(ListaProdutosFragment.this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("Produto Scan");
+                integrator.setCameraId(0);
+                integrator.initiateScan();
+
             }
         });
 
@@ -83,21 +90,30 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
 
 
 
-    /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case EDITAR:
-                    pro = SingletonGestorEvc.getInstance(getContext()).getProdutosDB();
-                    lvListaProdutos.setAdapter(new ListaProdutoAdaptador(getContext(), listaProdutos));
-                    //Toast.makeText(getContext(), "Livro Editado com sucesso", Toast.LENGTH_LONG).show();
-                    Snackbar.make(getView(),"Produto Editado com sucesso", Snackbar.LENGTH_LONG).show();
-                    break;
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null){
+            if (result.getContents() != null) {
+                alert(result.getContents());
+
+            } else {
+
+                alert("Scan Cancelado");
             }
+
+
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
+
         }
         //atualizar a lista
         //apresentar um toast
-        super.onActivityResult(requestCode, resultCode, data);
-    }*/
+    }
+
+    private void alert(String msg){
+        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+
+    }
 
     @Override
     public void onResume() {

@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
-        android:backgroundTint="#E91E63"
+        android:backgroundTint="@color/purple_200"
         android:clickable="true"
-        android:src="@drawable/qr-code" />
+        android:src="@drawable/code" />
 </FrameLayout>
