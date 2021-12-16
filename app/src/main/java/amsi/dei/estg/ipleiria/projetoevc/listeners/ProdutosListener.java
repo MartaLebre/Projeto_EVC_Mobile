@@ -9,4 +9,7 @@ public interface ProdutosListener {
         void onRefreshListaProdutos (ArrayList<Produto> listaProdutos);
 
         void onRefreshDetalhes();
+
+        void onLoadDetalhes(Produto produto);
+
 }

@@ -30,14 +30,16 @@ public class SingletonGestorEvc {
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
     private ArrayList<Produto> produtos;
-    private ProdutoDBHelper produtosDB=null;
+    private Produto produto;
+    private ProdutosFavoritosDBHelper produtosDB=null;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
-    private static final String mUrlAPIRegistarUser = "http://192.168.1.68:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.1.68:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.68:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.1.68:8080/v1/user/apagar";
-    private static final String mUrlAPIUserDetalhes = "http://192.168.1.68:8080/v1/user/detalhes";
-    private static final String mUrlAPIProdutos = "http://192.168.1.68:8080/v1/produto";
+    private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.1.177:8080/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.177:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.1.177:8080/v1/user/apagar";
+    private static final String mUrlAPIUserDetalhes = "http://192.168.1.177:8080/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = "http://192.168.1.177:8080/v1/produto";
+    private static final String mUrlAPIProdutoPesquisa = "http://192.168.1.177:8080/v1/produto/pesquisa";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;
@@ -259,31 +261,41 @@ public class SingletonGestorEvc {
     }
 
     public void getAllProdutosAPI(final Context context) {
-        /*if(!Produto.isConnectionInternet(context)) {
-            Toast.makeText(context, "Não tem ligação à Internet", Toast.LENGTH_LONG).show();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                produtos = ProdutoJsonParser.parserJsonProdutos(response);
 
-            if(livrosListener != null) {
-                livrosListener.onRefreshListaLivros(livrosBD.getAllLivrosBD());
+                if(produtosListener != null) {
+                    produtosListener.onRefreshListaProdutos(produtos);
+                }
             }
-        }
-        else {*/
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
-                    //adicionarLivrosBD(livros);
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        volleyQueue.add(request);
+    }
 
-                    if(produtosListener != null) {
-                        produtosListener.onRefreshListaProdutos(produtos);
-                    }
+    public void getProdutoPesquisa(String pesquisa, final Context context) {
+        StringRequest request = new StringRequest(Request.Method.GET, mUrlAPIProdutoPesquisa + "/" + pesquisa, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                produto = ProdutoJsonParser.parserJsonProduto(response);
+
+                if(produtosListener != null) {
+                    produtosListener.onRefreshListaProdutos(produtos);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-            volleyQueue.add(request);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        volleyQueue.add(request);
     }
 
 

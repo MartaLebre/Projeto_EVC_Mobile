@@ -1,12 +1,8 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,13 +10,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -29,10 +23,8 @@ import java.util.ArrayList;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.R;
 import amsi.dei.estg.ipleiria.projetoevc.adaptadores.ListaProdutoAdaptador;
-import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.Produto;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
-import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
 
 public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ProdutosListener {
 
@@ -57,9 +49,9 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         lvListaProdutos = view.findViewById(R.id.lvListaProdutos);
         lvListaProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long codigo_produto) {
-                Intent intent = new Intent(getContext(), DetalhesProdutoFragment.class);
-                intent.putExtra("CODIGO_PRODUTO" , (int)codigo_produto);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), DetalhesProdutoActivity.class);
+                intent.putExtra("ID" , (int)id);
                 //startActivity(intent);
                 startActivityForResult(intent,EDITAR);
             }
@@ -73,11 +65,13 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
             @Override
             public void onClick(View v) {
                 IntentIntegrator integrator = IntentIntegrator.forSupportFragment(ListaProdutosFragment.this);
+                integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
                 integrator.setPrompt("Produto Scan");
                 integrator.setCameraId(0);
+                integrator.setOrientationLocked(false);
+                integrator.setBeepEnabled(true);
                 integrator.initiateScan();
-
             }
         });
 
@@ -94,14 +88,12 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null){
             if (result.getContents() != null) {
-                alert(result.getContents());
+                SingletonGestorEvc.getInstance(getContext()).getProdutoPesquisa(result.getContents(), getContext());
+                produto(result.getContents());
 
             } else {
-
-                alert("Scan Cancelado");
+                Toast.makeText(getContext(), "Scan cancelado", Toast.LENGTH_LONG).show();
             }
-
-
         }else{
             super.onActivityResult(requestCode, resultCode, data);
 
@@ -110,9 +102,10 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
         //apresentar um toast
     }
 
-    private void alert(String msg){
-        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-
+    private void produto(String id){
+        Intent intent = new Intent(getContext(), DetalhesProdutoActivity.class);
+        intent.putExtra("ID" , Integer.parseInt(id));
+        startActivity(intent);
     }
 
     @Override
@@ -137,5 +130,10 @@ public class ListaProdutosFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onRefreshDetalhes() {
         //empty
+    }
+
+    @Override
+    public void onLoadDetalhes(Produto produto) {
+
     }
 }

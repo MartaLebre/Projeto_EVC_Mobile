@@ -8,31 +8,29 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-public class ProdutoDBHelper extends SQLiteOpenHelper {
+public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME="produtosDB";
+    private static final String DB_NAME="yii2_evc";
     private static final int DB_VERSION=1;
 
-    private static final String TABLE_PRODUTOS="Produtos";
+    private static final String TABLE_NAME = "favorito";
+    private static final String ID="ID";
     private static final String CODIGO_PRODUTO="codigo_produto";
-    private static final String NOME_PRODUTO="nome";
-    private static final String GENERO_PRODUTO="genero";
-    private static final String DESCRICAO_PRODUTO="descricao";
-    private static final String TAMANHO_PRODUTO="tamanho";
-    private static final String PRECO_PRODUTO="preco";
+    private static final String ID_USER="id_user";
 
     private final SQLiteDatabase db;
 
-    public ProdutoDBHelper(Context context) {
+    public ProdutosFavoritosDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db=getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlCreateTableProduto="CREATE TABLE "+TABLE_PRODUTOS+" ("+
-                CODIGO_PRODUTO+" INTEGER PRIMARY KEY, "+
-                NOME_PRODUTO+" TEXT NOT NULL, "+
+        String sqlCreateTableProduto="CREATE TABLE "+TABLE_NAME+" ("+
+                ID+" INTEGER PRIMARY KEY, "+
+                CODIGO_PRODUTO+" INTEGER , "+
+                ID_USER+" INTEGER , "+
                 GENERO_PRODUTO+" TEXT NOT NULL, "+
                 DESCRICAO_PRODUTO+" TEXT NOT NULL, "+
                 TAMANHO_PRODUTO+" TEXT NOT NULL, "+

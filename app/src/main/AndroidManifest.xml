@@ -29,9 +29,16 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <activity
-            android:name=".vistas.DetalhesProdutoFragment"
+            android:name=".vistas.DetalhesProdutoActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".vistas.AnyOrientationCaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
     </application>
 
 </manifest>
