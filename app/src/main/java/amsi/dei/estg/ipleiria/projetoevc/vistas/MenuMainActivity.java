@@ -98,7 +98,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_favoritos:
-                //fragment = new EditProfileFragment();
+                fragment = new FavoritoFragment();
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_editarPerfil:

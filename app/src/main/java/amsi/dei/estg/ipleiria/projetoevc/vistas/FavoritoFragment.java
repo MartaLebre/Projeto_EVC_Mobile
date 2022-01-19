@@ -98,10 +98,7 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onNoFavoritos() {
-        Fragment fragment = new FavoritoFragment();
-        fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
         Toast.makeText(getContext(), "Não tem favoritos :(!", Toast.LENGTH_LONG).show();
-
     }
 
     @Override

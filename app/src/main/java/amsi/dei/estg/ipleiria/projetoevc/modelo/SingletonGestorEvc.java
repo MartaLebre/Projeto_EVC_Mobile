@@ -92,7 +92,7 @@ public class SingletonGestorEvc {
     /*********** Metodos para aceder a BD local ************/
 
     public ArrayList<Produto> getProdutosFavoritosDB() {
-        produtos = produtosDB.getAllProdutosBD();
+        produtos = produtosDB.getAllProdutosFavoritosBD();
 
         return produtos;
     }
@@ -102,7 +102,7 @@ public class SingletonGestorEvc {
     }
 
     public void adicionarProdutosFavoritosBD(ArrayList<Produto> produtos){
-        produtosDB.removerAllProdutosBD();
+        //produtosDB.removerAllProdutosFavoritosBD();
         for(Produto p : produtos)
             adicionarProdutoFavoritoBD(p);
     }
@@ -303,13 +303,6 @@ public class SingletonGestorEvc {
      */
 
     public void getAllProdutosFavoritosAPI(final Context context, String token) {
-        if (isConnectedInternet(context)) {
-
-            if (favoritosListener != null) {
-                favoritosListener.onRefreshListaFavoritosProdutos(produtosFavoritosBD.getAllProdutosBD());
-            }
-
-        } else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
 
                 @Override
@@ -330,14 +323,10 @@ public class SingletonGestorEvc {
                 }
             });
             volleyQueue.add(req);
-        }
     }
 
     public void adicionarProdutoFavoritoAPI(final Context context, final Produto produto, final String token) {
-        if (isConnectedInternet(context)) {
-            Toast.makeText(context, "Sem internet!", Toast.LENGTH_SHORT).show();
 
-        } else {
             StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIProdutosFavoritosAdicionar + "/" + token , new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -367,14 +356,9 @@ public class SingletonGestorEvc {
                 }
             };
             volleyQueue.add(req);
-        }
     }
 
     public void removerProdutoFavoritoAPI(final Context applicationContext, Produto produto, String token) {
-        if (isConnectedInternet(applicationContext)) {
-            Toast.makeText(applicationContext, "Sem internet!", Toast.LENGTH_SHORT).show();
-
-        } else {
             StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIProdutosFavoritosEliminar + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
 
                 @Override
@@ -392,7 +376,6 @@ public class SingletonGestorEvc {
                 }
             });
             volleyQueue.add(req);
-        }
     }
 
     public void OnUpdateListaFavoritosBD(Produto produto, int operacao){
@@ -405,7 +388,4 @@ public class SingletonGestorEvc {
                 break;
         }
     }
-
-
-
 }
