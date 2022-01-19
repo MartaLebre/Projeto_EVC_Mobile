@@ -15,6 +15,11 @@
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_signup.xml" value="0.1953125" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/layout/nav_header_main.xml" value="0.22" />
         <entry key="..\:/Users/User/OneDrive/Documents/ProjetosAndroidStudio/Projeto_EVC_Mobile/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
+        <entry key="..\:/Users/joaop/OneDrive/Documentos/PSI - Leiria/Projetos Android Studio/Projeto_EVC_Mobile/app/src/main/res/layout/activity_detalhes_produto.xml" value="0.15625" />
+        <entry key="..\:/Users/joaop/OneDrive/Documentos/PSI - Leiria/Projetos Android Studio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_favoritos.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/joaop/OneDrive/Documentos/PSI - Leiria/Projetos Android Studio/Projeto_EVC_Mobile/app/src/main/res/layout/fragment_login.xml" value="0.15625" />
+        <entry key="..\:/Users/joaop/OneDrive/Documentos/PSI - Leiria/Projetos Android Studio/Projeto_EVC_Mobile/app/src/main/res/layout/item_lista_favorito.xml" value="0.15625" />
+        <entry key="..\:/Users/joaop/OneDrive/Documentos/PSI - Leiria/Projetos Android Studio/Projeto_EVC_Mobile/app/src/main/res/layout/item_lista_produto.xml" value="0.15625" />
         <entry key="..\:/Users/marta/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/marta/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/activity_detalhes_produto.xml" value="0.22" />
         <entry key="..\:/Users/marta/AndroidStudioProjects/Projeto_EVC_Mobile/app/src/main/res/layout/activity_menu_main.xml" value="0.209375" />
@@ -36,7 +41,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -30,11 +30,7 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
         String sqlCreateTableProduto="CREATE TABLE "+TABLE_NAME+" ("+
                 ID+" INTEGER PRIMARY KEY, "+
                 CODIGO_PRODUTO+" INTEGER , "+
-                ID_USER+" INTEGER , "+
-                GENERO_PRODUTO+" TEXT NOT NULL, "+
-                DESCRICAO_PRODUTO+" TEXT NOT NULL, "+
-                TAMANHO_PRODUTO+" TEXT NOT NULL, "+
-                PRECO_PRODUTO +" FLOAT NOT NULL );";
+                ID_USER+" INTEGER );";
         db.execSQL(sqlCreateTableProduto);
     }
 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import amsi.dei.estg.ipleiria.projetoevc.listeners.FavoritosListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
 import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
@@ -26,11 +27,15 @@ import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
 
 public class SingletonGestorEvc {
 
-    //192.168.1.189
+    private static final int ADICIONAR_BD = 1;
+
+    private static final int REMOVER_BD = 3;
+
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
     private ArrayList<Produto> produtos;
     private Produto produto;
+    private ProdutosFavoritosDBHelper produtosFavoritosBD;
     private ProdutosFavoritosDBHelper produtosDB=null;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
     private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
@@ -40,9 +45,13 @@ public class SingletonGestorEvc {
     private static final String mUrlAPIUserDetalhes = "http://192.168.1.177:8080/v1/user/detalhes";
     private static final String mUrlAPIProdutos = "http://192.168.1.177:8080/v1/produto";
     private static final String mUrlAPIProdutoPesquisa = "http://192.168.1.177:8080/v1/produto/pesquisa";
+    private static final String mUrlAPIProdutosFavoritos = "http://192.168.1.177:8080/v1/favorito/info";
+    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.1.177:8080/v1/favorito/adicionar";
+    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.1.177:8080/v1/favorito/remover";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;
+    public FavoritosListener favoritosListener;
 
     public static synchronized SingletonGestorEvc getInstance(Context context) {
         if (instance == null) {
@@ -54,6 +63,13 @@ public class SingletonGestorEvc {
 
     private SingletonGestorEvc(Context context) {
 
+        produtos = new ArrayList<>();
+        produtosFavoritosBD = new ProdutosFavoritosDBHelper(context);
+
+    }
+
+    public void setFavoritosListener(FavoritosListener favoritosListener){
+        this.favoritosListener = favoritosListener;
     }
 
     public void setUserListener(UserListener userListener) {
@@ -75,47 +91,30 @@ public class SingletonGestorEvc {
 
     /*********** Metodos para aceder a BD local ************/
 
-    public ArrayList<Produto> getProdutosDB() {
+    public ArrayList<Produto> getProdutosFavoritosDB() {
         produtos = produtosDB.getAllProdutosBD();
 
         return produtos;
-        // return new ArrayList<>(livros);
     }
 
-    public void adicionarProdutoBD(Produto produto){
-        produtosDB.adicionarProdutoBD(produto);
-        //Livro auxLivro = livrosBD.adicionarLivroBD(livro);
-        // if(auxLivro!= null)
-        //livros.add(auxLivro);
-        //livros.add(livro);
+    public void adicionarProdutoFavoritoBD(Produto produtoFavorito){
+        produtosDB.adicionarProdutoFavoritoBD(produtoFavorito);
     }
 
-    public void adicionarProdutosBD(ArrayList<Produto> produtos){
+    public void adicionarProdutosFavoritosBD(ArrayList<Produto> produtos){
         produtosDB.removerAllProdutosBD();
         for(Produto p : produtos)
-            adicionarProdutoBD(p);
+            adicionarProdutoFavoritoBD(p);
     }
 
-    public void editarProdutoBD(Produto produto){
-        Produto produtoAux = getProduto(produto.getCodigo_produto());
-        if(produtoAux != null)
-            produtosDB.editarProdutoBD(produtoAux);
-            /*
-            if(livrosBD.editarLivroBD(livroAux)) {
-                livroAux.setTitulo(livro.getTitulo());
-                livroAux.setAutor(livro.getAutor());
-                livroAux.setCapa(livro.getCapa());
-                livroAux.setSerie(livro.getSerie());
-                livroAux.setAno(livro.getAno());
-              */
-    }
 
-    public void removerProdutoBD(int codigo_produto){
+    public void removerProdutoFavoritoBD(int codigo_produto){
         Produto produto = getProduto(codigo_produto);
-        if(produto!=null)
-            //if(livrosBD.removerLivroBD(id))
-            //livros.remove(livro);
-            produtosDB.removerProdutoBD(codigo_produto);
+        if(produto!=null){
+            if (produtosFavoritosBD.removerProdutoFavoritoBD(codigo_produto)){
+                produtos.remove(codigo_produto);
+            }
+        }
     }
 
     public static boolean isConnectedInternet(Context context){
@@ -296,6 +295,115 @@ public class SingletonGestorEvc {
             }
         });
         volleyQueue.add(request);
+    }
+
+    /********* Métodos de acesso à API - Favoritos****/
+    /**
+     *
+     */
+
+    public void getAllProdutosFavoritosAPI(final Context context, String token) {
+        if (isConnectedInternet(context)) {
+
+            if (favoritosListener != null) {
+                favoritosListener.onRefreshListaFavoritosProdutos(produtosFavoritosBD.getAllProdutosBD());
+            }
+
+        } else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
+
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
+                    adicionarProdutosFavoritosBD(produtos);
+                    if (favoritosListener != null) {
+                        favoritosListener.onRefreshListaFavoritosProdutos(produtos);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (favoritosListener != null) {
+                        favoritosListener.onNoFavoritos();
+                    }
+                    Toast.makeText(context, "Não tem nenhum produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void adicionarProdutoFavoritoAPI(final Context context, final Produto produto, final String token) {
+        if (isConnectedInternet(context)) {
+            Toast.makeText(context, "Sem internet!", Toast.LENGTH_SHORT).show();
+
+        } else {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIProdutosFavoritosAdicionar + "/" + token , new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    adicionarProdutoFavoritoBD(produto);
+                    if (favoritosListener != null) {
+                        favoritosListener.onAddProdutosFavoritos();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("codigo_produto", produto.getCodigo_produto() + "");
+                    params.put("token", token);
+                    /*
+                    JSONObject param = new JSONObject(params);
+                    Log.e("MAP:", param+"");*/
+
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+    public void removerProdutoFavoritoAPI(final Context applicationContext, Produto produto, String token) {
+        if (isConnectedInternet(applicationContext)) {
+            Toast.makeText(applicationContext, "Sem internet!", Toast.LENGTH_SHORT).show();
+
+        } else {
+            StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIProdutosFavoritosEliminar + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    if (favoritosListener != null) {
+                        favoritosListener.onRemoverProdutosFavoritos();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(applicationContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void OnUpdateListaFavoritosBD(Produto produto, int operacao){
+        switch (operacao){
+            case ADICIONAR_BD:
+                adicionarProdutoFavoritoBD(produto);
+                break;
+            case REMOVER_BD:
+                removerProdutoFavoritoBD(produto.getCodigo_produto());
+                break;
+        }
     }
 
 
