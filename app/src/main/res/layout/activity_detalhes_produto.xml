@@ -180,17 +180,17 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/no_fav"
-                    
+                    android:visibility="invisible"
                     />
 
                 <Button
                     android:id="@+id/btnRemoveFav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="51dp"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/fav"
-                    android:backgroundTint="#FFFFFF"
-                    android:visibility="gone" />
+                    android:visibility="invisible" />
 
             </LinearLayout>
         </LinearLayout>

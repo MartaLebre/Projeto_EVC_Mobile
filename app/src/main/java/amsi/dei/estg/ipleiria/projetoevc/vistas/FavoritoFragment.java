@@ -82,6 +82,7 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosFavoritosAPI(getContext(), token);
+        Toast.makeText(getContext(), "Removido dos favoritos!", Toast.LENGTH_SHORT).show();
         swipeRefreshLayout.setRefreshing(false);
 
     }

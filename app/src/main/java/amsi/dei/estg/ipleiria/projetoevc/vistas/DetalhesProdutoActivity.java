@@ -20,7 +20,7 @@ import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.Produto;
 import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
 
-public class DetalhesProdutoActivity extends AppCompatActivity implements FavoritosListener, ProdutosListener{
+public class DetalhesProdutoActivity extends AppCompatActivity implements FavoritosListener{
 
     public static final String ID = "ID";
     private static final String DEFAULT_IMAGE = "http://amsi.dei.estg.ipleiria.pt/img/ipl_semfundo.png";
@@ -51,7 +51,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
         SharedPreferences sharedPrefUser = getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         token = sharedPrefUser.getString(MenuMainActivity.TOKEN, null);
 
-        SingletonGestorEvc.getInstance(getApplicationContext()).setProdutosListener(this);
+        SingletonGestorEvc.getInstance(getApplicationContext()).setFavoritosListener(this);
 
         if (token != null){
             SingletonGestorEvc.getInstance(getApplicationContext()).checkFavoritoAPI(getApplicationContext(), produto, token);
@@ -101,7 +101,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
     @Override
     public void onAddProdutosFavoritos() {
         Toast.makeText(getApplicationContext(), "Adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
-        btnAdicionarFavoritos.setVisibility(View.GONE);
+        btnAdicionarFavoritos.setVisibility(View.INVISIBLE);
         btnRemoverFavoritos.setVisibility(View.VISIBLE);
     }
 
@@ -109,7 +109,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
     public void onRemoverProdutosFavoritos() {
         Toast.makeText(getApplicationContext(), "Removido dos favoritos!", Toast.LENGTH_SHORT).show();
         btnAdicionarFavoritos.setVisibility(View.VISIBLE);
-        btnRemoverFavoritos.setVisibility(View.GONE);
+        btnRemoverFavoritos.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -125,22 +125,6 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
 
     @Override
     public void onRefreshListaFavoritosProdutos(ArrayList<Produto> produtos) {
-
-    }
-
-    @Override
-    public void onRefreshListaProdutos(ArrayList<Produto> produtos) {
-
-    }
-
-    @Override
-    public void onRefreshDetalhes() {
-        setResult(RESULT_OK);
-        finish();
-    }
-
-    @Override
-    public void onLoadDetalhes(Produto produto) {
 
     }
 }
