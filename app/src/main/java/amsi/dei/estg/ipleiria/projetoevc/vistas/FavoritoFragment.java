@@ -65,6 +65,11 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SingletonGestorEvc.getInstance(getContext()).setFavoritosListener(this);
+    }
 
 
     @Override
@@ -74,7 +79,6 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRemoverProdutosFavoritos() {
-
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosFavoritosAPI(getContext(), token);
@@ -88,22 +92,16 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onRefreshListaFavoritosProdutos(ArrayList<Produto> listaFavoritos) {
+    public void onRefreshListaFavoritosProdutos(ArrayList<Produto> produtos) {
 
-        if(listaFavoritos != null) {
-            lvListaFavoritos.setAdapter(new ListaFavoritoAdaptador(getContext(), listaFavoritos));
+        if(produtos != null) {
+            lvListaFavoritos.setAdapter(new ListaFavoritoAdaptador(getContext(), produtos));
         }
 
     }
 
     @Override
-    public void onNoFavoritos() {
-        Toast.makeText(getContext(), "Não tem favoritos :(!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onRefresh() {
-
         SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         String token = sharedPreferencesUser.getString(MenuMainActivity.TOKEN, null);
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosFavoritosAPI(getContext(), token);

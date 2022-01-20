@@ -36,7 +36,6 @@ public class SingletonGestorEvc {
     private ArrayList<Produto> produtos;
     private Produto produto;
     private ProdutosFavoritosDBHelper produtosFavoritosBD;
-    private ProdutosFavoritosDBHelper produtosDB=null;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
     private static final String mUrlAPIRegistarUser = "http://192.168.1.177:8080/v1/user/registo";
     private static final String mUrlAPIUserLogin = "http://192.168.1.177:8080/v1/user/login";
@@ -48,6 +47,7 @@ public class SingletonGestorEvc {
     private static final String mUrlAPIProdutosFavoritos = "http://192.168.1.177:8080/v1/favorito/info";
     private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.1.177:8080/v1/favorito/adicionar";
     private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.1.177:8080/v1/favorito/remover";
+    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.1.177:8080/v1/favorito/check";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;
@@ -92,17 +92,17 @@ public class SingletonGestorEvc {
     /*********** Metodos para aceder a BD local ************/
 
     public ArrayList<Produto> getProdutosFavoritosDB() {
-        produtos = produtosDB.getAllProdutosFavoritosBD();
+        produtos = produtosFavoritosBD.getAllProdutosFavoritosBD();
 
         return produtos;
     }
 
     public void adicionarProdutoFavoritoBD(Produto produtoFavorito){
-        produtosDB.adicionarProdutoFavoritoBD(produtoFavorito);
+        produtosFavoritosBD.adicionarProdutoFavoritoBD(produtoFavorito);
     }
 
     public void adicionarProdutosFavoritosBD(ArrayList<Produto> produtos){
-        //produtosDB.removerAllProdutosFavoritosBD();
+        produtosFavoritosBD.removerAllProdutosFavoritosBD();
         for(Produto p : produtos)
             adicionarProdutoFavoritoBD(p);
     }
@@ -303,83 +303,99 @@ public class SingletonGestorEvc {
      */
 
     public void getAllProdutosFavoritosAPI(final Context context, String token) {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
 
-                @Override
-                public void onResponse(JSONArray response) {
-                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
-                    adicionarProdutosFavoritosBD(produtos);
-                    if (favoritosListener != null) {
-                        favoritosListener.onRefreshListaFavoritosProdutos(produtos);
-                    }
+            @Override
+            public void onResponse(JSONArray response) {
+                produtos = ProdutoJsonParser.parserJsonProdutos(response);
+                adicionarProdutosFavoritosBD(produtos);
+                if (favoritosListener != null) {
+                    favoritosListener.onRefreshListaFavoritosProdutos(produtos);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (favoritosListener != null) {
-                        favoritosListener.onNoFavoritos();
-                    }
-                    Toast.makeText(context, "Não tem nenhum produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
-                }
-            });
-            volleyQueue.add(req);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Não tem nenhum produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyQueue.add(req);
     }
 
     public void adicionarProdutoFavoritoAPI(final Context context, final Produto produto, final String token) {
-
-            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIProdutosFavoritosAdicionar + "/" + token , new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    adicionarProdutoFavoritoBD(produto);
-                    if (favoritosListener != null) {
-                        favoritosListener.onAddProdutosFavoritos();
-                    }
-
+        StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIProdutosFavoritosAdicionar + "/" + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                adicionarProdutoFavoritoBD(produto);
+                if (favoritosListener != null) {
+                    favoritosListener.onAddProdutosFavoritos();
                 }
-            }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("codigo_produto", produto.getCodigo_produto() + "");
-                    params.put("token", token);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("codigo_produto", produto.getCodigo_produto() + "");
+                params.put("token", token);
                     /*
                     JSONObject param = new JSONObject(params);
                     Log.e("MAP:", param+"");*/
 
-                    return params;
-                }
-            };
-            volleyQueue.add(req);
+                return params;
+            }
+        };
+        volleyQueue.add(req);
     }
 
     public void removerProdutoFavoritoAPI(final Context applicationContext, Produto produto, String token) {
-            StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIProdutosFavoritosEliminar + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
+        StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIProdutosFavoritosEliminar + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
 
-                @Override
-                public void onResponse(String response) {
-                    if (favoritosListener != null) {
-                        favoritosListener.onRemoverProdutosFavoritos();
-                    }
-
+            @Override
+            public void onResponse(String response) {
+                if (favoritosListener != null) {
+                    favoritosListener.onRemoverProdutosFavoritos();
                 }
-            }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(applicationContext, error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            volleyQueue.add(req);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(applicationContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyQueue.add(req);
     }
 
-    public void OnUpdateListaFavoritosBD(Produto produto, int operacao){
-        switch (operacao){
+    public void checkFavoritoAPI(final Context applicationContext, final Produto produto, String token) {
+        StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIProdutosFavoritosCheck + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                boolean favorito = response.equals("true") ? true : false;
+
+                if (favoritosListener != null)
+                    favoritosListener.oncheckProdutoFavorito(favorito);
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(applicationContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyQueue.add(req);
+    }
+
+    public void OnUpdateListaFavoritosBD(Produto produto, int operacao) {
+        switch (operacao) {
             case ADICIONAR_BD:
                 adicionarProdutoFavoritoBD(produto);
                 break;

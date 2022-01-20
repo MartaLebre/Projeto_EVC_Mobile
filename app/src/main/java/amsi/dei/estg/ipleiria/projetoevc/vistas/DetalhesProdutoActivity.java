@@ -53,14 +53,9 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
 
         SingletonGestorEvc.getInstance(getApplicationContext()).setProdutosListener(this);
 
-        if(produto != null) {
-            Toolbar toolbar = findViewById(R.id.myToolBar);
-            setSupportActionBar(toolbar);
-            setTitle("Detalhes " + produto.getNome());
-            carregarDetalhesProduto();
-        }
-
         if (token != null){
+            SingletonGestorEvc.getInstance(getApplicationContext()).checkFavoritoAPI(getApplicationContext(), produto, token);
+
             btnAdicionarFavoritos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,6 +80,12 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
             btnRemoverFavoritos.setVisibility(View.GONE);
         }
 
+        if(produto != null) {
+            Toolbar toolbar = findViewById(R.id.myToolBar);
+            setSupportActionBar(toolbar);
+            setTitle("Detalhes " + produto.getNome());
+            carregarDetalhesProduto();
+        }
     }
 
     private void carregarDetalhesProduto() {
@@ -99,15 +100,14 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
 
     @Override
     public void onAddProdutosFavoritos() {
-
-        Toast.makeText(getApplicationContext(), "Ponto Turístico Removido dos favoritos!", Toast.LENGTH_SHORT).show();
-        btnAdicionarFavoritos.setVisibility(View.VISIBLE);
-        btnRemoverFavoritos.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "Adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
+        btnAdicionarFavoritos.setVisibility(View.GONE);
+        btnRemoverFavoritos.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onRemoverProdutosFavoritos() {
-        Toast.makeText(getApplicationContext(), "Ponto Turístico Removido dos favoritos!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Removido dos favoritos!", Toast.LENGTH_SHORT).show();
         btnAdicionarFavoritos.setVisibility(View.VISIBLE);
         btnRemoverFavoritos.setVisibility(View.GONE);
     }
@@ -129,12 +129,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
     }
 
     @Override
-    public void onNoFavoritos() {
-
-    }
-
-    @Override
-    public void onRefreshListaProdutos(ArrayList<Produto> listaProdutos) {
+    public void onRefreshListaProdutos(ArrayList<Produto> produtos) {
 
     }
 

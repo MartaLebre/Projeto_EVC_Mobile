@@ -62,8 +62,7 @@
                     android:layout_width="30dp"
                     android:layout_height="28dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/remove_fav"
-                    android:backgroundTint="#FFFFFF"
+                    android:background="@drawable/fav"
                     android:focusable="false" />
             </LinearLayout>
 

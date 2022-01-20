@@ -179,16 +179,16 @@
                     android:layout_height="51dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@drawable/add_fav"
-
-                    android:visibility="visible" />
+                    android:background="@drawable/no_fav"
+                    
+                    />
 
                 <Button
                     android:id="@+id/btnRemoveFav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/remove_fav"
+                    android:background="@drawable/fav"
                     android:backgroundTint="#FFFFFF"
                     android:visibility="gone" />
 

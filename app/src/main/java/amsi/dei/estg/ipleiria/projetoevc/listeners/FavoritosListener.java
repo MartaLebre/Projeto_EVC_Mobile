@@ -13,6 +13,4 @@ public interface FavoritosListener {
     void oncheckProdutoFavorito(Boolean favorito);
 
     void onRefreshListaFavoritosProdutos(ArrayList<Produto> produtos);
-
-    void onNoFavoritos();
 }
