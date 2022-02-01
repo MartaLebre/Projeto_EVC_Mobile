@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".vistas.MainFragment">
 
     <ScrollView
@@ -13,13 +13,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="800px"
-                android:background="@color/white"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -31,7 +29,7 @@
                     android:layout_margin="10dp"
                     android:foregroundGravity="center"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="85dp">
+                   >
 
                     <ImageView
                         android:id="@+id/iv_background"
@@ -48,18 +46,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/white"
                     android:paddingTop="40dp" />
 
                 <Button
-                    android:id="@+id/btnAnuncios"
+                    android:id="@+id/btnprodutos"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,9 +64,18 @@
                     android:textAllCaps="false"
                     android:textSize="22sp" />
 
-
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
 
+        </LinearLayout>
+
+    </ScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/purple_200"
+        android:clickable="true"
+        android:src="@drawable/call" />
 </FrameLayout>
