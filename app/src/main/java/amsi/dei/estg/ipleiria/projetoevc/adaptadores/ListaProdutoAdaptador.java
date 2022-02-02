@@ -68,15 +68,22 @@ public class ListaProdutoAdaptador extends BaseAdapter {
 
     private class ViewHolderLista{
         private TextView tvNome, tvTamanho;
+        private ImageView logo;
 
         public ViewHolderLista(View view){
             tvNome = view.findViewById(R.id.tvNome);
             tvTamanho = view.findViewById(R.id.tvTamanho);
+            logo = view.findViewById(R.id.logo);
         }
 
         public void update(Produto produto){
             tvNome.setText(produto.getNome());
             tvTamanho.setText(produto.getTamanho());
+            Glide.with(context)
+                    .load(produto.getFoto())
+                    .placeholder(R.drawable.no_image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(logo);
         }
     }
 }

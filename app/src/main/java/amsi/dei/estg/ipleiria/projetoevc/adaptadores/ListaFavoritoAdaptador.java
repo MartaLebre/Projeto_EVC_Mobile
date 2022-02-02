@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -77,17 +81,24 @@ public class ListaFavoritoAdaptador extends BaseAdapter {
 
     private class ViewHolderLista{
         private TextView tvNome, tvTamanho;
+        private ImageView logo;
         private Button btnRemoveFav;
 
         public ViewHolderLista(View view){
             tvNome = view.findViewById(R.id.tvNome);
             tvTamanho = view.findViewById(R.id.tvTamanho);
+            logo = view.findViewById(R.id.logo);
             btnRemoveFav = view.findViewById(R.id.btn_removerFavoritos);
         }
 
         public void update(Produto produto){
             tvNome.setText(produto.getNome());
             tvTamanho.setText(produto.getTamanho());
+            Glide.with(context)
+                    .load(produto.getFoto())
+                    .placeholder(R.drawable.no_image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(logo);
         }
     }
 }

@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 
 import amsi.dei.estg.ipleiria.projetoevc.R;
@@ -23,10 +26,10 @@ import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
 public class DetalhesProdutoActivity extends AppCompatActivity implements FavoritosListener{
 
     public static final String ID = "ID";
-    private static final String DEFAULT_IMAGE = "http://amsi.dei.estg.ipleiria.pt/img/ipl_semfundo.png";
     private Produto produto;
+
     private TextView tvCodigo_Produto, tvNome, tvGenero, tvDescricao, tvTamanho, tvPreco;
-    private ImageView imgCapa;
+    private ImageView logo;
     private String token;
     private Button btnAdicionarFavoritos, btnRemoverFavoritos;
 
@@ -45,6 +48,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
         tvDescricao = findViewById(R.id.tvDescricao);
         tvTamanho = findViewById(R.id.tvTamanho);
         tvPreco = findViewById(R.id.tvPreco);
+        logo = findViewById(R.id.logo);
         btnAdicionarFavoritos = findViewById(R.id.btnAddFav);
         btnRemoverFavoritos = findViewById(R.id.btnRemoveFav);
 
@@ -94,7 +98,12 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Favori
         tvGenero.setText(produto.getGenero());
         tvDescricao.setText(produto.getDescricao());
         tvTamanho.setText(produto.getTamanho());
-        tvPreco.setText((int) produto.getPreco() + "");
+        tvPreco.setText((float) produto.getPreco() + "");
+        Glide.with(this)
+                .load(produto.getFoto())
+                .placeholder(R.drawable.no_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(logo);
     }
 
 

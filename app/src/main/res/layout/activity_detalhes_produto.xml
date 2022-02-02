@@ -36,9 +36,11 @@
                     android:layout_height="30dp" />
 
                 <ImageView
+                    android:id="@+id/logo"
                     android:layout_width="match_parent"
                     android:layout_height="163dp"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/logo"
+                    app:srcCompat="@drawable/no_image"/>
 
                 <Space
                     android:layout_width="match_parent"
