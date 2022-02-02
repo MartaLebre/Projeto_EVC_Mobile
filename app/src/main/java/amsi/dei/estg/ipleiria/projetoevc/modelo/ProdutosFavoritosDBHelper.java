@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME="yii2_evc";
+    private static final String DB_NAME="favoritoDB";
     private static final int DB_VERSION=1;
 
-    private static final String TABLE_NAME = "favorito";
+    private static final String TABLE_FAVORITO = "favorito";
 
     private static final String CODIGO_PRODUTO="codigo_produto";
     private static final String NOME_PRODUTO = "nome_produto";
@@ -35,7 +35,7 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlCreateTableProdutoFavorito="CREATE TABLE "+TABLE_NAME+" ("+
+        String sqlCreateTableProdutoFavorito="CREATE TABLE "+TABLE_FAVORITO+" ("+
                 CODIGO_PRODUTO+" INTEGER PRIMARY KEY, "+
                 NOME_PRODUTO+" TEXT NOT NULL , "+
                 GENERO_PRODUTO + " TEXT NOT NULL, " +
@@ -51,7 +51,7 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sqlDropTableProdutoFavorito="DROP TABLE IF EXISTS "+TABLE_NAME;
+        String sqlDropTableProdutoFavorito="DROP TABLE IF EXISTS "+TABLE_FAVORITO;
         db.execSQL(sqlDropTableProdutoFavorito);
         this.onCreate(db);
     }
@@ -75,7 +75,7 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
         values.put(ID_MODELO, produto.getId_modelo());
         values.put(FOTO_PRODUTO, produto.getFoto());
 
-        this.db.insert(TABLE_NAME, null, values);
+        this.db.insert(TABLE_FAVORITO, null, values);
     }
 
 
@@ -85,11 +85,11 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
      * @return
      */
     public boolean removerProdutoFavoritoBD(int codigo_produto){
-        return this.db.delete(TABLE_NAME, "codigo_produto=?", new String[]{codigo_produto + ""}) > 0;
+        return this.db.delete(TABLE_FAVORITO, "codigo_produto=?", new String[]{codigo_produto + ""}) > 0;
     }
 
     public void removerAllProdutosFavoritosBD(){
-        this.db.delete(TABLE_NAME,  null, null);
+        this.db.delete(TABLE_FAVORITO,  null, null);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ProdutosFavoritosDBHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Produto> getAllProdutosFavoritosBD(){
         ArrayList<Produto> produtos = new ArrayList<>();
-        Cursor cursor = this.db.query(TABLE_NAME, new String[]{CODIGO_PRODUTO, NOME_PRODUTO, GENERO_PRODUTO, DESCRICAO_PRODUTO, TAMANHO_PRODUTO, PRECO_PRODUTO, QUANTIDADE_PRODUTO, DATA_PRODUTO, ID_MODELO, FOTO_PRODUTO},
+        Cursor cursor = this.db.query(TABLE_FAVORITO, new String[]{CODIGO_PRODUTO, NOME_PRODUTO, GENERO_PRODUTO, DESCRICAO_PRODUTO, TAMANHO_PRODUTO, PRECO_PRODUTO, QUANTIDADE_PRODUTO, DATA_PRODUTO, ID_MODELO, FOTO_PRODUTO},
                 null, null, null, null, null);
 
         if(cursor.moveToFirst()){

@@ -1,5 +1,6 @@
 package amsi.dei.estg.ipleiria.projetoevc.vistas;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 import amsi.dei.estg.ipleiria.projetoevc.R;
@@ -27,7 +30,9 @@ import amsi.dei.estg.ipleiria.projetoevc.modelo.SingletonGestorEvc;
 
 public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FavoritosListener {
     private ListView lvListaFavoritos;
+    private ArrayList<Produto> produto;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private static final int ADICIONAR = 3;
     private FragmentManager fragmentManager;
 
     public FavoritoFragment(){
@@ -63,6 +68,23 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case ADICIONAR:
+                    produto = SingletonGestorEvc.getInstance(getContext()).getProdutosFavoritosDB();
+                    lvListaFavoritos.setAdapter(new ListaFavoritoAdaptador(getContext(), produto));
+                    Toast.makeText(getContext(), "Favorito Adicionado com sucesso", Toast.LENGTH_LONG).show();
+                    //Snackbar.make(getView(),"Livro Adicionado com sucesso", Snackbar.LENGTH_LONG).show();
+                    break;
+            }
+        }
+        //atualizar a lista
+        //apresentar um toast
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

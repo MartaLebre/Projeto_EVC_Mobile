@@ -41,6 +41,16 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tvTexto2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:text="Quick links"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,6 +75,16 @@
                     android:textSize="22sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTexto"
+                android:layout_width="332dp"
+                android:layout_height="142dp"
+                android:layout_weight="0"
+                android:layout_gravity="center"
+                android:text="A eVintageClothing é uma loja online em desenvolvimento criada por estudantes da ESTG, do curso de Programação de Sistemas de informação. Esta loja foi criada com o objetivo de realização de um projeto de final de curso e com o objetivo de conhecer e dar a conhecer mais sobre o mundo de roupa Vintage.
+Seja bem vindo ao site e desfrute de todos os produtos, incluindo Mystery Boxes!"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
