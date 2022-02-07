@@ -46,4 +46,5 @@
     <string name="detalhes_etTamanho">Tamanho</string>
     <string name="detalhes_etPreco">Preco</string>
     <string name="detalhes_etCodigo_Produto">Codigo_Produto</string>
+
 </resources>

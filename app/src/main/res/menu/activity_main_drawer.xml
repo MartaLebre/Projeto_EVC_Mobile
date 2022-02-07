@@ -35,14 +35,14 @@
         </menu>
     </item>
 
-
-    <item android:title="">
+    <item android:title="Exit">
         <menu>
             <item
                 android:id="@+id/nav_terminarSessao"
                 android:title="Terminar Sessão" />
         </menu>
     </item>
+
 
 <!--            <item-->
 <!--                android:id="@+id/action_logout"-->

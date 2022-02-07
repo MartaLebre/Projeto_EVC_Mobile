@@ -100,6 +100,15 @@ public class MainFragment extends Fragment {
             }
         });
 
+        Button btnFavoritos = view.findViewById(R.id.btnFavoritos);
+        btnFavoritos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FavoritoFragment();
+                fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).addToBackStack(null).commit();
+            }
+        });
+
         FloatingActionButton call = view.findViewById(R.id.call);
         call.setOnClickListener(new View.OnClickListener() {
             @Override
