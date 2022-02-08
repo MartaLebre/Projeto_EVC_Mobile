@@ -18,7 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,22 @@ public class FavoritoFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         SharedPreferences sharedPrefInfoUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
         String token = sharedPrefInfoUser.getString(MenuMainActivity.TOKEN, null);
+
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(FavoritoFragment.this);
+                integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("Produto Scan");
+                integrator.setCameraId(0);
+                integrator.setOrientationLocked(false);
+                integrator.setBeepEnabled(true);
+                integrator.initiateScan();
+            }
+        });
 
         SingletonGestorEvc.getInstance(getContext()).getAllProdutosFavoritosAPI(getContext(), token);
 
