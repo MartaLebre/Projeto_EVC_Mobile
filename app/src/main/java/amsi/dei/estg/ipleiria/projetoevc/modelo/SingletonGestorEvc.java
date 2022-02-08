@@ -37,17 +37,17 @@ public class SingletonGestorEvc {
     private Produto produto;
     private ProdutosFavoritosDBHelper produtosFavoritosBD;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
-    private static final String mUrlAPIRegistarUser = "http://192.168.1.77:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.1.77:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.77:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.1.77:8080/v1/user/apagar";
-    private static final String mUrlAPIUserDetalhes = "http://192.168.1.77:8080/v1/user/detalhes";
-    private static final String mUrlAPIProdutos = "http://192.168.1.77:8080/v1/produto/all";
-    private static final String mUrlAPIProdutoPesquisa = "http://192.168.1.77:8080/v1/produto/pesquisa";
-    private static final String mUrlAPIProdutosFavoritos = "http://192.168.1.77:8080/v1/favorito/info";
-    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.1.77:8080/v1/favorito/adicionar";
-    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.1.77:8080/v1/favorito/remover";
-    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.1.77:8080/v1/favorito/check";
+    private static final String mUrlAPIRegistarUser = "http://192.168.100.160:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.100.160:8080/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.100.160:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.100.160:8080/v1/user/apagar";
+    private static final String mUrlAPIUserDetalhes = "http://192.168.100.160:8080/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = "http://192.168.100.160:8080/v1/produto/all";
+    private static final String mUrlAPIProdutoPesquisa = "http://192.168.100.160:8080/v1/produto/pesquisa";
+    private static final String mUrlAPIProdutosFavoritos = "http://192.168.100.160:8080/v1/favorito/info";
+    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.100.160:8080/v1/favorito/adicionar";
+    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.100.160:8080/v1/favorito/remover";
+    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.100.160:8080/v1/favorito/check";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;
@@ -303,23 +303,31 @@ public class SingletonGestorEvc {
      */
 
     public void getAllProdutosFavoritosAPI(final Context context, String token) {
-        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
+        if(!isConnectedInternet(context)){
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+            adicionarProdutosFavoritosBD(produtos);
+            if (favoritosListener != null) {
+                favoritosListener.onRefreshListaFavoritosProdutos(produtos);
+            }
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
 
-            @Override
-            public void onResponse(JSONArray response) {
-                produtos = ProdutoJsonParser.parserJsonProdutos(response);
-                adicionarProdutosFavoritosBD(produtos);
-                if (favoritosListener != null) {
-                    favoritosListener.onRefreshListaFavoritosProdutos(produtos);
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
+                    adicionarProdutosFavoritosBD(produtos);
+                    if (favoritosListener != null) {
+                        favoritosListener.onRefreshListaFavoritosProdutos(produtos);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Não tem nenhum produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        volleyQueue.add(req);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não tem nenhum produto adicionado aos favoritos!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
+        }
     }
 
     public void adicionarProdutoFavoritoAPI(final Context context, final Produto produto, final String token) {
@@ -355,6 +363,7 @@ public class SingletonGestorEvc {
     }
 
     public void removerProdutoFavoritoAPI(final Context applicationContext, Produto produto, String token) {
+
         StringRequest req = new StringRequest(Request.Method.DELETE, mUrlAPIProdutosFavoritosEliminar + "/" + produto.getCodigo_produto() + "/" + token, new Response.Listener<String>() {
 
             @Override
