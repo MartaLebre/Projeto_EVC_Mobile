@@ -37,17 +37,17 @@ public class SingletonGestorEvc {
     private Produto produto;
     private ProdutosFavoritosDBHelper produtosFavoritosBD;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
-    private static final String mUrlAPIRegistarUser = "http://192.168.100.160:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.100.160:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.100.160:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.100.160:8080/v1/user/apagar";
-    private static final String mUrlAPIUserDetalhes = "http://192.168.100.160:8080/v1/user/detalhes";
-    private static final String mUrlAPIProdutos = "http://192.168.100.160:8080/v1/produto/all";
-    private static final String mUrlAPIProdutoPesquisa = "http://192.168.100.160:8080/v1/produto/pesquisa";
-    private static final String mUrlAPIProdutosFavoritos = "http://192.168.100.160:8080/v1/favorito/info";
-    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.100.160:8080/v1/favorito/adicionar";
-    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.100.160:8080/v1/favorito/remover";
-    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.100.160:8080/v1/favorito/check";
+    private static final String mUrlAPIRegistarUser = "http://192.168.1.77:8080/v1/user/registo";
+    private static final String mUrlAPIUserLogin = "http://192.168.1.77:8080/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.77:8080/v1/user/editar";
+    private static final String mUrlAPIApagarUser = "http://192.168.1.77:8080/v1/user/apagar";
+    private static final String mUrlAPIUserDetalhes = "http://192.168.1.77:8080/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = "http://192.168.1.77:8080/v1/produto/all";
+    private static final String mUrlAPIProdutoPesquisa = "http://192.168.1.77:8080/v1/produto/pesquisa";
+    private static final String mUrlAPIProdutosFavoritos = "http://192.168.1.77:8080/v1/favorito/info";
+    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.1.77:8080/v1/favorito/adicionar";
+    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.1.77:8080/v1/favorito/remover";
+    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.1.77:8080/v1/favorito/check";
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;

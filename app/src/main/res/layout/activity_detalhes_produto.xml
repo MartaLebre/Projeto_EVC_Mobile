@@ -173,7 +173,7 @@
                     android:layout_height="51dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@drawable/no_fav"
+                    android:background="@drawable/no_fav1"
                     android:visibility="invisible"
                     />
                 <Button
@@ -182,7 +182,7 @@
                     android:layout_height="51dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@drawable/fav"
+                    android:background="@drawable/fav2"
                     android:visibility="invisible"
                     android:paddingBottom="50px"/>
         </LinearLayout>

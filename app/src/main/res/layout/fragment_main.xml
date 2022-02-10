@@ -60,36 +60,38 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
-                    android:layout_weight="0"
                     android:orientation="vertical">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="55dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_gravity="center"
-                        android:layout_weight="0"
                         android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/btnprodutos"
+                            style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="Produtos"
+                            android:drawableLeft="@drawable/tshirt_main"
                             android:textAllCaps="false"
                             android:textSize="15sp" />
 
                         <Space
-                            android:layout_width="20dp"
+                            android:layout_width="10dp"
                             android:layout_height="5dp" />
 
                         <Button
                             android:id="@+id/btnFavoritos"
+                            style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:drawableLeft="@drawable/fav_main"
                             android:text="Favoritos"
                             android:textAllCaps="false"
                             android:textSize="15sp" />
@@ -104,25 +106,41 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
-                android:layout_weight="0"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="15sp"
                 android:text="A eVintageClothing é uma loja online em desenvolvimento criada por estudantes da ESTG, do curso de Programação de Sistemas de informação. Esta loja foi criada com o objetivo de realização de um projeto de final de curso e com o objetivo de conhecer e dar a conhecer mais sobre o mundo de roupa Vintage.
 Seja bem vindo ao site e desfrute de todos os produtos, incluindo Mystery Boxes!"
                 android:textStyle="italic" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/purple_200"
+                android:clickable="true"
+                android:src="@drawable/call" />
+
         </LinearLayout>
+
 
 
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/call"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/purple_200"
+        android:layout_gravity="bottom"
         android:clickable="true"
-        android:src="@drawable/call" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/footer_item_1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@eVintageClothing" />
+
+    </LinearLayout>
+
 </FrameLayout>

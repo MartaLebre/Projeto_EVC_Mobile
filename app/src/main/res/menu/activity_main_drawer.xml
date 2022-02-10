@@ -6,14 +6,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_inicial"
-            android:title="Inicial" />
+            android:title="Inicial"
+            android:icon="@drawable/home"/>
         <item
             android:id="@+id/nav_produtos"
-            android:title="Produtos" />
+            android:title="Produtos"
+            android:icon="@drawable/product"/>
 
         <item
             android:id="@+id/nav_favoritos"
-            android:title="Favoritos" />
+            android:title="Favoritos"
+            android:icon="@drawable/fav_menu"/>
 
 
     </group>
@@ -22,7 +25,8 @@
         <menu>
             <item
                 android:id="@+id/nav_editarPerfil"
-                android:title="Editar Perfil" />
+                android:title="Editar Perfil"
+                android:icon="@drawable/profile"/>
         </menu>
     </item>
 
@@ -30,7 +34,8 @@
         <menu>
             <item
                 android:id="@+id/nav_contacto"
-                android:title="Contactar Loja" />
+                android:title="Contactar Loja"
+                android:icon="@drawable/call2"/>
 
         </menu>
     </item>
@@ -39,7 +44,8 @@
         <menu>
             <item
                 android:id="@+id/nav_terminarSessao"
-                android:title="Terminar Sessão" />
+                android:title="Terminar Sessão"
+                android:icon="@drawable/logout"/>
         </menu>
     </item>
 
