@@ -18,6 +18,11 @@
             android:title="Favoritos"
             android:icon="@drawable/fav_menu"/>
 
+        <item
+            android:id="@+id/nav_encomendas"
+            android:title="Encomendas"
+            android:icon="@drawable/encomedas"/>
+
 
     </group>
 

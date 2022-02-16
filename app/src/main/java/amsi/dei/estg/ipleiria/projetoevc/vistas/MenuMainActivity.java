@@ -105,6 +105,10 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 fragment = new FavoritoFragment();
                 setTitle(menuItem.getTitle());
                 break;
+            case R.id.nav_encomendas:
+                fragment = new EncomendasFragment();
+                setTitle(menuItem.getTitle());
+                break;
             case R.id.nav_contacto:
                 Intent myIntent = new Intent(Intent.ACTION_CALL);
                 String phNum = "tel:" + "911035352";

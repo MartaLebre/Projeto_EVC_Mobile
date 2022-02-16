@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import amsi.dei.estg.ipleiria.projetoevc.listeners.EncomendasListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.FavoritosListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.ProdutosListener;
 import amsi.dei.estg.ipleiria.projetoevc.listeners.UserListener;
+import amsi.dei.estg.ipleiria.projetoevc.utils.EncomendaJsonParser;
 import amsi.dei.estg.ipleiria.projetoevc.utils.ProdutoJsonParser;
 import amsi.dei.estg.ipleiria.projetoevc.utils.UtilizadoresParserJson;
 
@@ -31,27 +33,33 @@ public class SingletonGestorEvc {
 
     private static final int REMOVER_BD = 3;
 
+    private static final String IP = "http://192.168.1.189:8080";
+
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
     private ArrayList<Produto> produtos;
+    private ArrayList<Encomenda> encomendas;
     private Produto produto;
     private ProdutosFavoritosDBHelper produtosFavoritosBD;
     private static RequestQueue volleyQueue = null; //static para ser fila unica
-    private static final String mUrlAPIRegistarUser = "http://192.168.1.77:8080/v1/user/registo";
-    private static final String mUrlAPIUserLogin = "http://192.168.1.77:8080/v1/user/login";
-    private static final String mUrlAPIEditarRegistoUser = "http://192.168.1.77:8080/v1/user/editar";
-    private static final String mUrlAPIApagarUser = "http://192.168.1.77:8080/v1/user/apagar";
-    private static final String mUrlAPIUserDetalhes = "http://192.168.1.77:8080/v1/user/detalhes";
-    private static final String mUrlAPIProdutos = "http://192.168.1.77:8080/v1/produto/all";
-    private static final String mUrlAPIProdutoPesquisa = "http://192.168.1.77:8080/v1/produto/pesquisa";
-    private static final String mUrlAPIProdutosFavoritos = "http://192.168.1.77:8080/v1/favorito/info";
-    private static final String mUrlAPIProdutosFavoritosAdicionar = "http://192.168.1.77:8080/v1/favorito/adicionar";
-    private static final String mUrlAPIProdutosFavoritosEliminar = "http://192.168.1.77:8080/v1/favorito/remover";
-    private static final String mUrlAPIProdutosFavoritosCheck = "http://192.168.1.77:8080/v1/favorito/check";
+    private static final String mUrlAPIRegistarUser = IP + "/v1/user/registo";
+    private static final String mUrlAPIUserLogin = IP + "/v1/user/login";
+    private static final String mUrlAPIEditarRegistoUser = IP + "/v1/user/editar";
+    private static final String mUrlAPIApagarUser = IP + "/v1/user/apagar";
+    private static final String mUrlAPIUserDetalhes = IP + "/v1/user/detalhes";
+    private static final String mUrlAPIProdutos = IP + "/v1/produto/all";
+    private static final String mUrlAPIProdutoPesquisa = IP + "/v1/produto/pesquisa";
+    private static final String mUrlAPIProdutosFavoritos = IP + "/v1/favorito/info";
+    private static final String mUrlAPIProdutosFavoritosAdicionar = IP + "/v1/favorito/adicionar";
+    private static final String mUrlAPIProdutosFavoritosEliminar = IP + "/v1/favorito/remover";
+    private static final String mUrlAPIProdutosFavoritosCheck = IP + "/v1/favorito/check";
+    private static final String mUrlAPIEncomendas = IP + "/v1/encomenda/all";
+
 
     private UserListener userListener;
     protected ProdutosListener produtosListener;
     public FavoritosListener favoritosListener;
+    private EncomendasListener encomendasListener;
 
     public static synchronized SingletonGestorEvc getInstance(Context context) {
         if (instance == null) {
@@ -78,6 +86,10 @@ public class SingletonGestorEvc {
 
     public void setProdutosListener(ProdutosListener produtosListener) {
         this.produtosListener = produtosListener;
+    }
+
+    public void setEncomendasListener(EncomendasListener encomendasListener) {
+        this.encomendasListener = encomendasListener;
     }
 
     public Produto getProduto(int id){
@@ -402,6 +414,30 @@ public class SingletonGestorEvc {
         });
         volleyQueue.add(req);
     }
+
+    public void getAllEncomendasAPI(final Context context, String token) {
+        if(!isConnectedInternet(context)){
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+        }else {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIEncomendas + "/" + token, null, new Response.Listener<JSONArray>() {
+
+                @Override
+                public void onResponse(JSONArray response) {
+                    encomendas = EncomendaJsonParser.parserJsonEncomendas(response);
+                    if (encomendasListener != null) {
+                        encomendasListener.onRefreshListaEncomendas(encomendas);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Não tem nenhuma encomenda!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
 
     public void OnUpdateListaFavoritosBD(Produto produto, int operacao) {
         switch (operacao) {
