@@ -33,7 +33,7 @@ public class SingletonGestorEvc {
 
     private static final int REMOVER_BD = 3;
 
-    private static final String IP = "http://192.168.1.189:8080";
+    private static final String IP = "http://192.168.1.177:8080";
 
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
