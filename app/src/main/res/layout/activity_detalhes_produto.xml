@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Codigo do produto:"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <Space
@@ -65,6 +66,7 @@
                     android:id="@+id/tv2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:hint="Nome:"
                     android:textSize="18sp" />
 
@@ -88,6 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Género:"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <Space
@@ -110,6 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descrição:"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <Space
@@ -133,6 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tamanho:"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <Space
@@ -155,6 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Preço:"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <Space

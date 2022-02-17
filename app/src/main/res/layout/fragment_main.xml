@@ -132,7 +132,6 @@ Seja bem vindo ao site e desfrute de todos os produtos, incluindo Mystery Boxes!
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:clickable="true"
         android:orientation="vertical">
         <TextView
             android:id="@+id/footer_item_1"

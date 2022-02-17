@@ -102,13 +102,28 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 setTitle(menuItem.getTitle());
                 break;
             case R.id.nav_favoritos:
-                fragment = new FavoritoFragment();
-                setTitle(menuItem.getTitle());
-                break;
+                if(token != null){
+                    fragment = new FavoritoFragment();
+                    setTitle(menuItem.getTitle());
+                    break;
+                }else{
+                    Toast.makeText(getApplicationContext(), "Não tem sessão iniciada", Toast.LENGTH_LONG).show();
+                    fragment = new LoginFragment();
+                    setTitle(menuItem.getTitle());
+                    break;
+                }
             case R.id.nav_encomendas:
-                fragment = new EncomendasFragment();
-                setTitle(menuItem.getTitle());
-                break;
+                if(token != null){
+                    fragment = new EncomendasFragment();
+                    setTitle(menuItem.getTitle());
+                    break;
+                }else{
+                    Toast.makeText(getApplicationContext(), "Não tem sessão iniciada", Toast.LENGTH_LONG).show();
+                    fragment = new LoginFragment();
+                    setTitle(menuItem.getTitle());
+                    break;
+                }
+
             case R.id.nav_contacto:
                 Intent myIntent = new Intent(Intent.ACTION_CALL);
                 String phNum = "tel:" + "911035352";
@@ -117,7 +132,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                     startActivity(myIntent);
                 }
                 else {
-                    /* Exibe a tela para o usuário dar a permissão. */
+                    /* Exibe o ecra para o usuário dar a permissão. */
                     ActivityCompat.requestPermissions(
                             MenuMainActivity.this,
                             new String[]{Manifest.permission.CALL_PHONE},

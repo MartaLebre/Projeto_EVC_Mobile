@@ -77,7 +77,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
                     String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
                     SingletonGestorEvc.getInstance(getContext()).editarUtilizadorAPI(utilizador, getContext(), user);
                     SharedPreferences.Editor editor = sharedPreferencesUser.edit();
-                    editor.clear().apply();
+                    editor.apply();
                 }
             }
         });

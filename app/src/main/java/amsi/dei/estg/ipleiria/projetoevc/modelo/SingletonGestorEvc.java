@@ -33,7 +33,7 @@ public class SingletonGestorEvc {
 
     private static final int REMOVER_BD = 3;
 
-    private static final String IP = "http://192.168.1.177:8080";
+    private static final String IP = "http://192.168.1.189:8080";
 
     private static SingletonGestorEvc instance = null;
     private Utilizador utilizador;
@@ -76,7 +76,7 @@ public class SingletonGestorEvc {
 
     }
 
-    public void setFavoritosListener(FavoritosListener favoritosListener){
+    public void setFavoritosListener(FavoritosListener favoritosListener) {
         this.favoritosListener = favoritosListener;
     }
 
@@ -92,9 +92,9 @@ public class SingletonGestorEvc {
         this.encomendasListener = encomendasListener;
     }
 
-    public Produto getProduto(int id){
-        for(Produto p: produtos){
-            if(p.getCodigo_produto() == id){
+    public Produto getProduto(int id) {
+        for (Produto p : produtos) {
+            if (p.getCodigo_produto() == id) {
                 return p;
             }
         }
@@ -109,27 +109,27 @@ public class SingletonGestorEvc {
         return produtos;
     }
 
-    public void adicionarProdutoFavoritoBD(Produto produtoFavorito){
+    public void adicionarProdutoFavoritoBD(Produto produtoFavorito) {
         produtosFavoritosBD.adicionarProdutoFavoritoBD(produtoFavorito);
     }
 
-    public void adicionarProdutosFavoritosBD(ArrayList<Produto> produtos){
+    public void adicionarProdutosFavoritosBD(ArrayList<Produto> produtos) {
         produtosFavoritosBD.removerAllProdutosFavoritosBD();
-        for(Produto p : produtos)
+        for (Produto p : produtos)
             adicionarProdutoFavoritoBD(p);
     }
 
 
-    public void removerProdutoFavoritoBD(int codigo_produto){
+    public void removerProdutoFavoritoBD(int codigo_produto) {
         Produto produto = getProduto(codigo_produto);
-        if(produto!=null){
-            if (produtosFavoritosBD.removerProdutoFavoritoBD(codigo_produto)){
+        if (produto != null) {
+            if (produtosFavoritosBD.removerProdutoFavoritoBD(codigo_produto)) {
                 produtos.remove(codigo_produto);
             }
         }
     }
 
-    public static boolean isConnectedInternet(Context context){
+    public static boolean isConnectedInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
@@ -142,38 +142,45 @@ public class SingletonGestorEvc {
      */
 
     public void registarUserAPI(final Utilizador utilizador, final Context context) {
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIRegistarUser, new Response.Listener<String>() {
+        if (!isConnectedInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+        } else {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIRegistarUser, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-                if (userListener != null) {
-                    userListener.onUserRegistado(response);
+                @Override
+                public void onResponse(String response) {
+                    if (userListener != null) {
+                        userListener.onUserRegistado(response);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", utilizador.getUsername());
-                params.put("email", utilizador.getEmail());
-                params.put("password", utilizador.getPassword());
-                params.put("primeiro_nome", utilizador.getPrimeiroNome());
-                params.put("ultimo_nome", utilizador.getUltimoNome());
-                params.put("telemovel", utilizador.getNumeroTelemovel());
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", utilizador.getUsername());
+                    params.put("email", utilizador.getEmail());
+                    params.put("password", utilizador.getPassword());
+                    params.put("primeiro_nome", utilizador.getPrimeiroNome());
+                    params.put("ultimo_nome", utilizador.getUltimoNome());
+                    params.put("telemovel", utilizador.getNumeroTelemovel());
 
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
     }
 
     public void getUserAPI(final Context context, String token) {
+        if (!isConnectedInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+        } else {
 
             StringRequest req = new StringRequest(Request.Method.GET, mUrlAPIUserDetalhes + "/" + token, new Response.Listener<String>() {
                 @Override
@@ -192,8 +199,9 @@ public class SingletonGestorEvc {
                 }
             });
             volleyQueue.add(req);
-    }
+        }
 
+    }
 
     public void editarUtilizadorAPI(final Utilizador utilizador, final Context context, final String username) {
         StringRequest req = new StringRequest(Request.Method.PUT, mUrlAPIEditarRegistoUser + "/" + username, new Response.Listener<String>() {
@@ -223,90 +231,100 @@ public class SingletonGestorEvc {
         volleyQueue.add(req);
     }
 
+
     public void loginUserAPI(final String username, final String password, final Context context) {
-        StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIUserLogin, new Response.Listener<String>() {
+        if (!isConnectedInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+        } else {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIUserLogin, new Response.Listener<String>() {
 
-            public void onResponse(String response) {
-                String token = UtilizadoresParserJson.parserJsonLogin(response);
-                if (userListener != null) {
-                    userListener.onValidateLogin(token, username);
+                public void onResponse(String response) {
+                    String token = UtilizadoresParserJson.parserJsonLogin(response);
+                    if (userListener != null) {
+                        userListener.onValidateLogin(token, username);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (userListener != null) {
-                    userListener.onErroLogin();
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (userListener != null) {
+                        userListener.onErroLogin();
+                    }
                 }
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("username", username);
-                params.put("password", password);
-                return params;
-            }
-        };
-        volleyQueue.add(req);
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", username);
+                    params.put("password", password);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
     }
 
-
     public void apagarContaAPI(String username, final Context context) {
-        StringRequest req = new StringRequest(Request.Method.PATCH, mUrlAPIApagarUser + "/" + username, new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.PATCH, mUrlAPIApagarUser + "/" + username, new Response.Listener<String>() {
 
-            public void onResponse(String response) {
-                if (userListener != null) {
-                    userListener.onApagarConta(response);
+                public void onResponse(String response) {
+                    if (userListener != null) {
+                        userListener.onApagarConta(response);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        volleyQueue.add(req);
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            volleyQueue.add(req);
+
     }
 
     public void getAllProdutosAPI(final Context context) {
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                produtos = ProdutoJsonParser.parserJsonProdutos(response);
+        if (!isConnectedInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
+        } else {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    produtos = ProdutoJsonParser.parserJsonProdutos(response);
 
-                if(produtosListener != null) {
-                    produtosListener.onRefreshListaProdutos(produtos);
+                    if (produtosListener != null) {
+                        produtosListener.onRefreshListaProdutos(produtos);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        volleyQueue.add(request);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(request);
+        }
     }
 
     public void getProdutoPesquisa(String pesquisa, final Context context) {
-        StringRequest request = new StringRequest(Request.Method.GET, mUrlAPIProdutoPesquisa + "/" + pesquisa, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                produto = ProdutoJsonParser.parserJsonProduto(response);
+            StringRequest request = new StringRequest(Request.Method.GET, mUrlAPIProdutoPesquisa + "/" + pesquisa, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    produto = ProdutoJsonParser.parserJsonProduto(response);
 
-                if(produtosListener != null) {
-                    produtosListener.onRefreshListaProdutos(produtos);
+                    if (produtosListener != null) {
+                        produtosListener.onRefreshListaProdutos(produtos);
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        volleyQueue.add(request);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+            volleyQueue.add(request);
+
     }
 
     /********* Métodos de acesso à API - Favoritos****/
@@ -315,13 +333,13 @@ public class SingletonGestorEvc {
      */
 
     public void getAllProdutosFavoritosAPI(final Context context, String token) {
-        if(!isConnectedInternet(context)){
+        if (!isConnectedInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
             adicionarProdutosFavoritosBD(produtos);
             if (favoritosListener != null) {
                 favoritosListener.onRefreshListaFavoritosProdutos(produtos);
             }
-        }else {
+        } else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutosFavoritos + "/" + token, null, new Response.Listener<JSONArray>() {
 
                 @Override
@@ -416,9 +434,9 @@ public class SingletonGestorEvc {
     }
 
     public void getAllEncomendasAPI(final Context context, String token) {
-        if(!isConnectedInternet(context)){
+        if (!isConnectedInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet!", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIEncomendas + "/" + token, null, new Response.Listener<JSONArray>() {
 
                 @Override

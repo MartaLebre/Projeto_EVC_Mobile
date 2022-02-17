@@ -55,11 +55,4 @@
     </item>
 
 
-<!--            <item-->
-<!--                android:id="@+id/action_logout"-->
-<!--                android:icon="@drawable/logout"-->
-<!--                android:title="Terminar Sessão" />-->
-<!--    -->
-
-
 </menu>
