@@ -60,16 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
 
-                <EditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/update_hPassword"
-                    android:textSize="18sp" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
 
                 <EditText
                     android:id="@+id/etprimeiroNome"

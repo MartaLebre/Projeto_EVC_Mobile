@@ -66,12 +66,12 @@ public class EditProfileFragment extends Fragment implements UserListener {
                 if (SingletonGestorEvc.isConnectedInternet(getContext())) {
                     String Username = username.getText().toString();
                     String Email = email.getText().toString();
-                    String Password = password.getText().toString();
+                    //String Password = password.getText().toString();
                     String PrimeiroNome = primeiroNome.getText().toString();
                     String UltimoNome = ultimoNome.getText().toString();
                     String NumeroTelemovel = numeroTelemovel.getText().toString();
 
-                    utilizador = new Utilizador(Username, Email, Password, PrimeiroNome, UltimoNome, NumeroTelemovel);
+                    utilizador = new Utilizador(Username, Email, null, PrimeiroNome, UltimoNome, NumeroTelemovel);
 
                     SharedPreferences sharedPreferencesUser = getActivity().getSharedPreferences(MenuMainActivity.INFO_USER, Context.MODE_PRIVATE);
                     String user = sharedPreferencesUser.getString(MenuMainActivity.USERNAME, null);
@@ -169,7 +169,7 @@ public class EditProfileFragment extends Fragment implements UserListener {
     public void onLoadEditarRegisto(Utilizador utilizador) {
         username.setText(utilizador.getUsername());
         email.setText(utilizador.getEmail());
-        password.setText(utilizador.getPassword());
+       // password.setText(utilizador.getPassword());
         primeiroNome.setText(utilizador.getPrimeiroNome());
         ultimoNome.setText(utilizador.getUltimoNome());
         numeroTelemovel.setText(utilizador.getNumeroTelemovel());
